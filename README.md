@@ -57,6 +57,6 @@ Parents often find it challenging to connect and collaborate with others in thei
 - Firebase Authentication
 
 ## Wire-frames & User Flows
-<img src="/images/event_page.jpg" alt="Event Page" width="70%">.  
-<img src="/images/login.jpg" alt="Login" width="70%">.  
-<img src="/images/sign_upjpg" alt="Sign Up Page" width="70%">.  
+<img src="/images/event_page.jpg" alt="Event Page" width="70%" style="border: 2px solid grey;">.  
+<img src="/images/login.jpg" alt="Login" width="70%" style="border: 2px solid grey;">.  
+<img src="/images/sign_up.jpg" alt="Sign Up Page" width="70%" style="border: 2px solid grey;">.  
