@@ -12,7 +12,7 @@ SchoolSync is a web platform designed to help connect the parents of children wh
 
 ## Problem Statement
 
-Parents often find it challenging to connect and collaborate with others in their child's grade. This disconnect can lead to missed opportunities for coordinating events, community support, and sharing resources. SchoolSync addresses this by providing:
+Parents often find it challenging to connect and collaborate with the other parents. This disconnect can lead to missed opportunities for coordinating events, community support, and sharing resources. SchoolSync addresses this by providing:
 
 1. A user-friendly platform for creating and viewing events.
 2. Real-time chat capabilities for sharing information.
