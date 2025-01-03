@@ -6,7 +6,8 @@ SchoolSync
 
 Team Members:
 
- Aksana
+ Aksana,
+
  Brianna
 
 Project Description 
@@ -37,9 +38,9 @@ Event Page
 
 Chat Feature
 
-    * Real-Time Group Chat: A chat room designated for parents in the same grade or school.
-    * Send/Receive Messages: Enables easy Q&A, announcements, and community discussions.
-    * Timestamps: Messages show the date and time posted.
+    - Real-Time Group Chat: A chat room designated for parents in the same grade or school.
+    - Send/Receive Messages: Enables easy Q&A, announcements, and community discussions.
+    - Timestamps: Messages show the date and time posted.
 
 Potential Additional Features
 
@@ -53,38 +54,38 @@ Technology Choices
 
 Back-End
 
-* Firestone Database
+- Firestone Database
 
 Front-End
 
-* React
-* Typescript
+- React
+- Typescript
 
 Deployment
 
-* Firebase Hosting
+- Firebase Hosting
 
 Authentication
 
-* Firebase Authentication
+- Firebase Authentication
 
 Wire-frames & User Flows
 
 Login Page  
 
-    * Fields: Email, Password  
-    * Option to Sign Up or Reset Password.
+    - Fields: Email, Password  
+    - Option to Sign Up or Reset Password.
 
 Dashboard (Home Page)  
 
-    * Displays upcoming events and a recent chat feed.
+    - Displays upcoming events and a recent chat feed.
 
 Event Page  
 
-    * Event List: Shows all upcoming events with RSVP option.  
-    * Create Event: A form to add event details.
+    - Event List: Shows all upcoming events with RSVP option.  
+    - Create Event: A form to add event details.
 
 Chat Page  
 
-    * Group Chat: Displays real-time messages for the user’s grade level or local group.  
-    * New Message Field: Input box to type and send messages.
+    - Group Chat: Displays real-time messages for the user’s grade level or local group.  
+    - New Message Field: Input box to type and send messages.
