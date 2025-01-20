@@ -23,8 +23,8 @@ function EventForm() {
             <Form.Field>
                 <input type='text' placeholder='Address'/>
             </Form.Field>
-            <Button type='submit' floated='right' positive content='Submit'></Button>
-            <Button type='button' floated='right' positive content='Cancel'></Button>
+            <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
+            <Button type='button' floated='right' inverted color='blue' content='Cancel'></Button>
         </Form>
 
     </Segment>
