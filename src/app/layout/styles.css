@@ -1,0 +1,11 @@
+@import url('semantic-ui-css/semantic.min.css');
+
+body {
+    background-color: rgb(245, 245, 245);
+}
+.ui.inverted.top.fixed.menu {
+    background-color: rgba(22, 63, 187, 0.596);
+}
+.ui.main.container {
+    margin-top: 7em;
+}
