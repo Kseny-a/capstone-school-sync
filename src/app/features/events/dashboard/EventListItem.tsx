@@ -34,7 +34,7 @@ function EventListItem({ event }: any) {
           </List>
         </Segment>
         <Segment clearing>
-          <span>Description of the event</span>
+          <span>{event.description}</span>
           <Button color='blue' floated='right' content='View' />
         </Segment>
       </SegmentGroup>
