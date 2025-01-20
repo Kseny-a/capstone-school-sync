@@ -1,6 +1,6 @@
 import EventListItem from "./EventListItem"
 
-export default function EventList() {
+function EventList() {
   return (
     <>
       <EventListItem/>
@@ -11,3 +11,5 @@ export default function EventList() {
     </>
   )
 }
+
+export default EventList

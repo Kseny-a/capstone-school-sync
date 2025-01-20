@@ -1,7 +1,7 @@
 import { SegmentGroup, Segment, ItemGroup, Item, ItemContent, ItemHeader, Icon, List, Button } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 
-export default function EventListItem() {
+function EventListItem() {
   return (
     <>
       <SegmentGroup>
@@ -44,3 +44,5 @@ export default function EventListItem() {
     </>
   )
 }
+
+export default EventListItem

@@ -44,7 +44,7 @@ Parents often find it challenging to connect and collaborate with the other pare
 ## Technology Choices
 
 ### Back-End
-- Firestone Database
+- Firestore Database
 
 ### Front-End
 - React
