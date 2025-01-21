@@ -9,8 +9,7 @@ type Props = {
 }
 
 function EventDashboard({ showForm, setShowForm }: Props) {
-  console.log("showForm in App:", showForm); // Should log true/false
-  console.log("setShowForm in App:", setShowForm); // Should log a function
+  
   return (
     <Grid>
       <Grid.Column width = {10}>
