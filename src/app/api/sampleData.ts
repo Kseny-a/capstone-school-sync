@@ -1,8 +1,11 @@
+import { Timestamp } from "firebase/firestore";
+
 export const sampleData = [
     {
         id: '1',
         title: 'Seattle Kids Playdate Meetup',
         date: '2025-01-28',
+        // date: Timestamp.fromDate(new Date(Date.now() + 7 * 24*60*60 *1000)),
         time: '10:30 AM',
         description: 'Join us for a fun-filled playdate for kids! Enjoy games, activities, and snacks while meeting other parents in the Seattle area. This event is perfect for toddlers and young children to socialize and play together.',
         venue: 'Magnuson Park',
@@ -31,6 +34,7 @@ export const sampleData = [
         id: '2',
         title: 'Seattle Toddler Fun Day',
         date: '2025-02-15',
+        // date: Timestamp.fromDate(new Date(Date.now() + 7 * 24*60*60 *1000)),
         time: '10:30 AM',
         category: 'family',
         description: 'Bring your little ones to enjoy an exciting day of crafts, music, and fun activities. A great opportunity for parents to connect and kids to make new friends in a safe and lively environment.',
