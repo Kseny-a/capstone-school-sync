@@ -6,7 +6,7 @@ export type AppEvent = {
     time: string
     description: string
     venue: string
-    location: string
+    address: string
     hostedBy: string
     hostPhotoURL: string
     attendees: Attendee[]
