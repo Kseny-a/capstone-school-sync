@@ -5,11 +5,12 @@ import { AppEvent } from '../../../types/event'
 type Props = {
   setShowForm: (value: boolean) => void
   addEvent: (event: AppEvent) => void
+  selectedEvent: AppEvent | null
 }
 
-function EventForm({ setShowForm, addEvent }: Props) {
+function EventForm({ setShowForm, addEvent, selectedEvent }: Props) {
   
-  const initialValues = {
+  const defaultValues = selectedEvent ?? {
     title: '',
     date: '',
     time: '',
@@ -18,7 +19,7 @@ function EventForm({ setShowForm, addEvent }: Props) {
     address: '',
   }
   
-  const [eventForm, setEventForm] = useState(initialValues)
+  const [eventForm, setEventForm] = useState(defaultValues)
 
   
   const handleInputChange = (e: any) => {
@@ -27,7 +28,8 @@ function EventForm({ setShowForm, addEvent }: Props) {
   }
 
   const onSubmit = () => {
-    addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], location: '', hostPhotoURL: ''})
+    addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], address: '', hostPhotoURL: ''})
+    setShowForm(false)
   }
 
 
