@@ -6,9 +6,10 @@ type Props = {
   setShowForm: (value: boolean) => void
   addEvent: (event: AppEvent) => void
   selectedEvent: AppEvent | null
+  updateEvent: (event: AppEvent) => void
 }
 
-function EventForm({ setShowForm, addEvent, selectedEvent }: Props) {
+function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props) {
   
   const defaultValues = selectedEvent ?? {
     title: '',
@@ -28,14 +29,15 @@ function EventForm({ setShowForm, addEvent, selectedEvent }: Props) {
   }
 
   const onSubmit = () => {
-    addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], address: '', hostPhotoURL: ''})
+    selectedEvent ? updateEvent({...selectedEvent, ...eventForm}):
+      addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], address: '', hostPhotoURL: ''})
     setShowForm(false)
   }
 
 
   return (
     <Segment clearing>
-      <Header content='Create Event' />
+      <Header content={selectedEvent ? 'Update Event' : 'Create Event'}/>
       <Form onSubmit={onSubmit}>
         <Form.Field>
           <input 

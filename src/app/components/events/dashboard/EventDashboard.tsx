@@ -9,7 +9,7 @@ type Props = {
   showForm: boolean
   setShowForm: (value: boolean) => void
   selectedEvent: AppEvent | null
-  selectEvent: (event: AppEvent) => void
+  selectEvent: (event: AppEvent | null) => void
 
 }
 
@@ -22,13 +22,19 @@ function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: P
     setEventData(sampleData)
   }, [])
 
-  // add event to Evenlist
+  // add event to Eventlist
   const addEvent = (event: AppEvent) => {
     setEventData(prevData => {
       return [...prevData, event]
     })
   }
 
+  // update Event
+  const updateEvent = (updatedEvent: AppEvent) => {
+    setEventData(eventData.map(event => event.id === updatedEvent.id ? updatedEvent : event ))
+    selectEvent (null)
+    setShowForm(false)
+  } 
   
   return (
     <Grid>
@@ -39,6 +45,7 @@ function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: P
         {showForm &&
           <EventForm 
           setShowForm={setShowForm} 
+          updateEvent={updateEvent}
           addEvent={addEvent}
           selectedEvent={selectedEvent}
           key={selectedEvent ? selectedEvent.id : 'create'}/>}
