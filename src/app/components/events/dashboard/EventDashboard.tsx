@@ -10,11 +10,15 @@ import { db } from '../../../api/config/firebase'
 type Props = {
   showForm: boolean
   setShowForm: (value: boolean) => void
+  selectedEvent: AppEvent | null
+  selectEvent: (event: AppEvent) => void
+
 }
 
-function EventDashboard({ showForm, setShowForm }: Props) {
+function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: Props) {
   
   const [eventData, setEventData] = useState<AppEvent[]>([])
+  
 
   useEffect(()=> {
     const q = query(collection(db, 'events'));
@@ -39,14 +43,19 @@ function EventDashboard({ showForm, setShowForm }: Props) {
     })
   }
 
+  
   return (
     <Grid>
       <Grid.Column width = {10}>
-          <EventList events={eventData}/>
+          <EventList events={eventData} selectEvent={selectEvent} />
       </Grid.Column>
       <Grid.Column width = {6}>
         {showForm &&
-          <EventForm setShowForm={setShowForm} addEvent={addEvent}/>}
+          <EventForm 
+          setShowForm={setShowForm} 
+          addEvent={addEvent}
+          selectedEvent={selectedEvent}
+          key={selectedEvent ? selectedEvent.id : 'create'}/>}
       </Grid.Column>
     </Grid>
   )
