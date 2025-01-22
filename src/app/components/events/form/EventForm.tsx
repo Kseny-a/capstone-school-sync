@@ -1,11 +1,14 @@
-import { Button, CardDescription, Form, Header, Segment } from 'semantic-ui-react';
+import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react'
+import { AppEvent } from '../../../types/event'
 
 type Props = {
   setShowForm: (value: boolean) => void
+  addEvent: (event: AppEvent) => void
 }
-function EventForm({ setShowForm }: Props) {
 
+function EventForm({ setShowForm, addEvent }: Props) {
+  
   const initialValues = {
     title: '',
     date: '',
@@ -14,38 +17,39 @@ function EventForm({ setShowForm }: Props) {
     venue: '',
     address: '',
   }
-
-  const [eventForm, setEventForm] = useState(initialValues)
   
-  const handleChange = (e: any) => {
+  const [eventForm, setEventForm] = useState(initialValues)
+
+  
+  const handleInputChange = (e: any) => {
     const {name, value} = e.target
     setEventForm({...eventForm, [name]: value})
   }
 
-  function onHandleSubmit() {
-    console.log(eventForm)
+  const onSubmit = () => {
+    addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], location: '', hostPhotoURL: ''})
   }
 
 
   return (
     <Segment clearing>
       <Header content='Create Event' />
-      <Form onSubmit={onHandleSubmit}>
+      <Form onSubmit={onSubmit}>
         <Form.Field>
           <input 
           type='text' 
           placeholder='Event title' 
           value={eventForm.title}
           name='title'
-          onChange={e => handleChange(e)}/>
+          onChange={e => handleInputChange(e)}/>
         </Form.Field>
         <Form.Field>
           <input 
           type='text' 
-          placeholder='Date'
+          placeholder='Date mm/dd/yyyy'
           value={eventForm.date}
           name='date'
-          onChange={e => handleChange(e)}/> 
+          onChange={e => handleInputChange(e)}/> 
         </Form.Field>
         <Form.Field>
           <input 
@@ -53,7 +57,7 @@ function EventForm({ setShowForm }: Props) {
           placeholder='Time'
           value={eventForm.time}
           name='time'
-          onChange={e => handleChange(e)}/> 
+          onChange={e => handleInputChange(e)}/> 
         </Form.Field>
         <Form.Field>
           <input 
@@ -61,7 +65,7 @@ function EventForm({ setShowForm }: Props) {
           placeholder='Description'
           value={eventForm.description}
           name='description'
-          onChange={e => handleChange(e)}/> 
+          onChange={e => handleInputChange(e)}/> 
         </Form.Field>
         <Form.Field>
           <input 
@@ -69,7 +73,7 @@ function EventForm({ setShowForm }: Props) {
           placeholder='Venue'
           value={eventForm.venue}
           name='venue'
-          onChange={e => handleChange(e)}/> 
+          onChange={e => handleInputChange(e)}/> 
         </Form.Field>
         <Form.Field>
           <input 
@@ -77,7 +81,7 @@ function EventForm({ setShowForm }: Props) {
           placeholder='Address'
           value={eventForm.address}
           name='address'
-          onChange={e => handleChange(e)}/> 
+          onChange={e => handleInputChange(e)}/> 
         </Form.Field>
         <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
         <Button onClick={() => setShowForm(false)} type='button' floated='right' inverted color='blue' content='Cancel'></Button>

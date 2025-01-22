@@ -2,6 +2,8 @@ import { Grid } from "semantic-ui-react";
 import EventList from "./EventList";
 import EventForm from "../form/EventForm";
 import { sampleData } from "../../../api/sampleData";
+import { useEffect, useState } from 'react'
+import { AppEvent } from "../../../types/event"
 
 type Props = {
   showForm: boolean
@@ -10,14 +12,27 @@ type Props = {
 
 function EventDashboard({ showForm, setShowForm }: Props) {
   
+  const [eventData, setEventData] = useState<AppEvent[]>([])
+
+  useEffect(() => {
+    setEventData(sampleData)
+  }, [])
+
+  // add event to Evenlist
+  const addEvent = (event: AppEvent) => {
+    setEventData(prevData => {
+      return [...prevData, event]
+    })
+  }
+
   return (
     <Grid>
       <Grid.Column width = {10}>
-          <EventList events={sampleData}/>
+          <EventList events={eventData}/>
       </Grid.Column>
       <Grid.Column width = {6}>
         {showForm &&
-          <EventForm setShowForm={setShowForm}/>}
+          <EventForm setShowForm={setShowForm} addEvent={addEvent}/>}
       </Grid.Column>
     </Grid>
   )
