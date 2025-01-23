@@ -1,6 +1,8 @@
 import { SegmentGroup, Segment, ItemGroup, Item, ItemContent, ItemHeader, Icon, List, Button } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 import { AppEvent } from "../../../types/event" 
+import { deleteDoc, doc } from 'firebase/firestore'
+import { db } from '../../../api/config/firebase'
 
 type Props = {
   event: AppEvent
@@ -8,6 +10,21 @@ type Props = {
 }
 function EventListItem({ event, selectEvent }: Props) {
   const eventDate = event.date instanceof Date ? event.date.toISOString().split('T')[0]: event.date;
+
+async function deleteEvent(event: AppEvent) {
+  if (!event || !event.id) {
+    console.log('Event or event ID is missing');
+    return;
+  }
+    const eventRef = doc(db, 'events', event.id);
+    try {
+      await deleteDoc(eventRef);
+    }
+    catch (error) {
+      console.error('Error deleting document: ', error);
+    }
+
+}
   return (
     <>
       <SegmentGroup>
@@ -42,13 +59,11 @@ function EventListItem({ event, selectEvent }: Props) {
         <Segment clearing>
           <span>{event.description}</span>
           <Button color='blue' floated='right' content='View' onClick={() => selectEvent(event)}/>
+          <Button color='red' floated='right' content='Delete' onClick={() => deleteEvent(event)}/>
         </Segment>
       </SegmentGroup>
-
-
-
     </>
-  )
+  );
 }
 
-export default EventListItem
+export default EventListItem;

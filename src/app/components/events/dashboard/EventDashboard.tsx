@@ -4,7 +4,7 @@ import EventForm from "../form/EventForm";
 // import { sampleData } from "../../../api/sampleData";
 import { useEffect, useState } from 'react'
 import { AppEvent } from "../../../types/event"
-import { collection, onSnapshot, query } from 'firebase/firestore'
+import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 
 type Props = {
@@ -27,9 +27,11 @@ function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: P
         const events: AppEvent[] = [];
         querySnapshot.forEach(doc => {
           const data = doc.data();
-          events.push({id: doc.id,
+          const date = data.date instanceof Timestamp ? data.date.toDate() : new Date(data.date);
+          events.push({
+            id: doc.id,
           ...data,
-          date: (data.date as Timestamp)?.toDate().toDateString() } as AppEvent);
+          date: date.toDateString() } as AppEvent);
         });
         setEventData(events);
       },
