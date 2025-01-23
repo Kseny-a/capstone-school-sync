@@ -1,17 +1,9 @@
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react'
-import { AppEvent } from '../../../types/event'
 
-type Props = {
-  setShowForm: (value: boolean) => void
-  addEvent: (event: AppEvent) => void
-  selectedEvent: AppEvent | null
-  updateEvent: (event: AppEvent) => void
-}
-
-function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props) {
+function EventForm() {
   
-  const defaultValues = selectedEvent ?? {
+  const defaultValues = {
     title: '',
     date: '',
     time: '',
@@ -29,15 +21,16 @@ function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props)
   }
 
   const onSubmit = () => {
-    selectedEvent ? updateEvent({...selectedEvent, ...eventForm}):
-      addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], address: '', hostPhotoURL: ''})
-    setShowForm(false)
+    console.log(eventForm)
+    // selectedEvent ? updateEvent({...selectedEvent, ...eventForm}):
+    //   addEvent({...eventForm, id: 'a', hostedBy: 'Robot', attendees: [], address: '', hostPhotoURL: ''})
+    // setShowForm(false)
   }
 
 
   return (
     <Segment clearing>
-      <Header content={selectedEvent ? 'Update Event' : 'Create Event'}/>
+      <Header content={'Create Event'}/>
       <Form onSubmit={onSubmit}>
         <Form.Field>
           <input 
@@ -88,7 +81,7 @@ function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props)
           onChange={e => handleInputChange(e)}/> 
         </Form.Field>
         <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
-        <Button onClick={() => setShowForm(false)} type='button' floated='right' inverted color='blue' content='Cancel'></Button>
+        <Button type='button' floated='right' inverted color='blue' content='Cancel'></Button>
       </Form>
 
     </Segment>
