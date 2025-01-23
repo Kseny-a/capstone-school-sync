@@ -1,8 +1,9 @@
+import { Timestamp } from "firebase/firestore"
 
 export type AppEvent = {
     id: string
     title: string
-    date: string
+    date: Timestamp | string
     time: string
     description: string
     venue: string

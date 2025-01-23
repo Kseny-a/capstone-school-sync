@@ -26,8 +26,11 @@ function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: P
       next: querySnapshot => {
         const events: AppEvent[] = [];
         querySnapshot.forEach(doc => {
-          events.push({id: doc.id, ...doc.data()} as AppEvent)
-        })
+          const data = doc.data();
+          events.push({id: doc.id,
+          ...data,
+          date: (data.date as Timestamp)?.toDate().toDateString() } as AppEvent);
+        });
         setEventData(events);
       },
       error: error => console.log(error),

@@ -7,6 +7,7 @@ type Props = {
   selectEvent: (event: AppEvent) => void
 }
 function EventListItem({ event, selectEvent }: Props) {
+  const eventDate = event.date instanceof Date ? event.date.toISOString().split('T')[0]: event.date;
   return (
     <>
       <SegmentGroup>
@@ -27,7 +28,7 @@ function EventListItem({ event, selectEvent }: Props) {
         </Segment>
         <Segment>
           <span>
-            <Icon name='clock' /> {event.date}
+            <Icon name='clock' /> {eventDate}
             <Icon name='marker' /> {event.venue}
           </span>
         </Segment>
