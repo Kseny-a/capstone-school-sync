@@ -4,7 +4,7 @@ import EventList from "./EventList";
 // import { sampleData } from "../../../api/sampleData";
 import { useEffect, useState } from 'react'
 import { AppEvent } from "../../../types/event"
-import { collection, onSnapshot, query } from 'firebase/firestore'
+import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 // import { sampleData } from "../../../api/sampleData";
 
@@ -22,8 +22,13 @@ function EventDashboard() {
       next: querySnapshot => {
         const events: AppEvent[] = [];
         querySnapshot.forEach(doc => {
-          events.push({id: doc.id, ...doc.data()} as AppEvent)
-        })
+          const data = doc.data();
+          const date = data.date instanceof Timestamp ? data.date.toDate() : new Date(data.date);
+          events.push({
+            id: doc.id,
+          ...data,
+          date: date.toDateString() } as AppEvent);
+        });
         setEventData(events);
       },
       error: error => console.log(error),

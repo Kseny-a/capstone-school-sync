@@ -1,5 +1,5 @@
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 type Props ={
     setShowForm: (value: boolean) => void
