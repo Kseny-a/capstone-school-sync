@@ -24,8 +24,8 @@ export default function EventDetailedHeader() {
     </Segment>
 
     <Segment attached="bottom">
-        <Button>UN-RSVP</Button>
-        <Button>RSVP</Button>
+        <Button>Unattend</Button>
+        <Button>Attend</Button>
 
         <Button floated="right">
             Manage Event
