@@ -59,7 +59,7 @@ async function deleteEvent(event: AppEvent) {
         </Segment>
         <Segment clearing>
           <span>{event.description}</span>
-          <Button as={Link} to={`/events/${event.id}`} color='blue' floated='right' content='View'/>
+          <Button color='blue' floated='right' content='View Event'as={Link} to={`/events/${event.id}`} />
           <Button color='red' floated='right' content='Delete' onClick={() => deleteEvent(event)}/>
         </Segment>
       </SegmentGroup>

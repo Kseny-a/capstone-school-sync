@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import EventDashboard from "../components/events/dashboard/EventDashboard";
-import EventForm from "../components/events/form/EventForm";
+import EventForm from "../features/events/form/EventForm";
 import App from "../layout/App";
-import EventDetailedPage from "../features/events/pages/EventDetailedPage";
+import EventDetailedPage from "../features/events/page/EventDetailedPage";
 
 
 
