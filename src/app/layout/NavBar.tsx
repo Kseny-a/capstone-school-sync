@@ -45,6 +45,7 @@ export default function NavBar({ setShowForm }: Props) {
         </MenuItem>
         )}
         <MenuItem position='right'>
+          <Button basic inverted content='UserPage' />
           <Button basic inverted content='Login' />
           <Button basic inverted content='Register' />
         </MenuItem>
