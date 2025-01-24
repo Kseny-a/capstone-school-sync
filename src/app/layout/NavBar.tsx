@@ -2,13 +2,9 @@ import { Button, Menu, Container, MenuItem } from 'semantic-ui-react';
 import { sampleData } from './../api/sampleData.ts';
 import { setDoc, doc } from 'firebase/firestore';
 import { db } from  './../api/config/firebase';
+import { NavLink } from 'react-router-dom';
 
-
-type Props = {
-  setShowForm: (value: boolean) => void;
-}
-
-export default function NavBar({ setShowForm }: Props) {
+export default function NavBar() {
   async function seedDatabase() {
     for (const event of sampleData) {
       const { id, ...eventData } = event;
@@ -21,14 +17,15 @@ export default function NavBar({ setShowForm }: Props) {
   return (
     <Menu inverted={true} fixed='top'>
       <Container>
-        <MenuItem header>
-          <img src="/logo.png" alt="logo" />
+        <MenuItem header as={NavLink} to='/'>
+          {/* <img src="/logo.png" alt="logo" /> */}
           SchoolSync
         </MenuItem>
-        <MenuItem name='Events' />
+        <MenuItem name='Events' as={NavLink} to='/events'/>
         <MenuItem>
           <Button
-            onClick={() => setShowForm(true)}
+            as={NavLink} 
+            to='/createEvent'
             floated='right'
             positive={true}
             inverted={true}
@@ -43,7 +40,7 @@ export default function NavBar({ setShowForm }: Props) {
           onClick={seedDatabase}
           > Seed DB </Button>
         </MenuItem>
-        )}
+        )} 
         <MenuItem position='right'>
           <Button basic inverted content='UserPage' />
           <Button basic inverted content='Login' />

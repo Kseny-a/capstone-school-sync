@@ -1,14 +1,15 @@
 import { SegmentGroup, Segment, ItemGroup, Item, ItemContent, ItemHeader, Icon, List, Button } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 import { AppEvent } from "../../../types/event" 
-import { deleteDoc, doc } from 'firebase/firestore'
+import { Link } from "react-router-dom";
+import { deleteDoc, doc, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 
 type Props = {
   event: AppEvent
-  selectEvent: (event: AppEvent) => void
 }
-function EventListItem({ event, selectEvent }: Props) {
+
+function EventListItem({ event, }: Props) {
   const eventDate = event.date instanceof Date ? event.date.toISOString().split('T')[0]: event.date;
 
 async function deleteEvent(event: AppEvent) {
@@ -58,7 +59,7 @@ async function deleteEvent(event: AppEvent) {
         </Segment>
         <Segment clearing>
           <span>{event.description}</span>
-          <Button color='blue' floated='right' content='View' onClick={() => selectEvent(event)}/>
+          <Button color='blue' floated='right' content='View Event'as={Link} to={`/events/${event.id}`} />
           <Button color='orange' floated='right' content='Delete' onClick={() => deleteEvent(event)}/>
         </Segment>
       </SegmentGroup>

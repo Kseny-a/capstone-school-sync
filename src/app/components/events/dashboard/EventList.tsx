@@ -2,15 +2,17 @@ import EventListItem from "./EventListItem"
 import { AppEvent } from "../../../types/event"
 
 type Props ={
-  events: AppEvent[]
-  selectEvent: (event: AppEvent) => void
+  eventData: AppEvent[]
 }
 
-function EventList({events, selectEvent}: Props) {
+function EventList({eventData}: Props) {
   return (
     <>
-      {events.map((event: any) => (
-        <EventListItem key={event.id} event={event} selectEvent={selectEvent}/>
+      {eventData.map((event: any) => (
+        <EventListItem 
+          key={event.id} 
+          event={event}
+          />
       ))}
     </>
   )

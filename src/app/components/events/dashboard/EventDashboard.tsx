@@ -1,25 +1,21 @@
 import { Grid } from "semantic-ui-react";
 import EventList from "./EventList";
-import EventForm from "../form/EventForm";
+// import EventForm from "../form/EventForm";
 // import { sampleData } from "../../../api/sampleData";
 import { useEffect, useState } from 'react'
 import { AppEvent } from "../../../types/event"
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
+// import { sampleData } from "../../../api/sampleData";
 
-type Props = {
-  showForm: boolean
-  setShowForm: (value: boolean) => void
-  selectedEvent: AppEvent | null
-  selectEvent: (event: AppEvent | null) => void
-
-}
-
-function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: Props) {
+function EventDashboard() {
   
   const [eventData, setEventData] = useState<AppEvent[]>([])
   
 
+  // useEffect(() => {
+  //   setEventData(sampleData)
+  // }, [])
   useEffect(()=> {
     const q = query(collection(db, 'events'));
     const unsubscribe = onSnapshot(q, {
@@ -41,33 +37,14 @@ function EventDashboard({ showForm, setShowForm, selectEvent, selectedEvent }: P
   return () => unsubscribe()
   }, []);
 
-  // add event to Eventlist
-  const addEvent = (event: AppEvent) => {
-    setEventData(prevData => {
-      return [...prevData, event]
-    })
-  }
 
-  // update Event
-  const updateEvent = (updatedEvent: AppEvent) => {
-    setEventData(eventData.map(event => event.id === updatedEvent.id ? updatedEvent : event ))
-    selectEvent (null)
-    setShowForm(false)
-  } 
-  
   return (
     <Grid>
       <Grid.Column width = {10}>
-          <EventList events={eventData} selectEvent={selectEvent} />
+          <EventList eventData={eventData}/>
       </Grid.Column>
       <Grid.Column width = {6}>
-        {showForm &&
-          <EventForm 
-          setShowForm={setShowForm} 
-          updateEvent={updateEvent}
-          addEvent={addEvent}
-          selectedEvent={selectedEvent}
-          key={selectedEvent ? selectedEvent.id : 'create'}/>}
+        <h2>Placeholder</h2>
       </Grid.Column>
     </Grid>
   )

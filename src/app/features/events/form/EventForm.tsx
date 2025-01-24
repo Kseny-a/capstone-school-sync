@@ -1,4 +1,4 @@
-import { Button, Form, Header, Segment } from 'semantic-ui-react';
+import { ChangeEvent, Button, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react';
 
 type Props ={
