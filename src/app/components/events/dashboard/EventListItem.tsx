@@ -9,7 +9,7 @@ type Props = {
   event: AppEvent
 }
 
-function EventListItem({ event, }: Props) {
+function EventListItem({ event }: Props) {
   const eventDate = event.date instanceof Date ? event.date.toISOString().split('T')[0]: event.date;
 
 async function deleteEvent(event: AppEvent) {

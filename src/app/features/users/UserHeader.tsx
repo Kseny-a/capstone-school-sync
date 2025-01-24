@@ -7,7 +7,7 @@ function UserHeader() {
         <Grid.Column width={12}>
             <Item.Group>
                 <Item> 
-                    <Item.Image pic size='small' src={'/user.png'}/>
+                    <Item.Image pic size='small' circular src={'/user.png'}/>
                     <Item.Content verticalAlign='middle'>
                         <Header as='h1'content='Name'/>
                     </Item.Content>

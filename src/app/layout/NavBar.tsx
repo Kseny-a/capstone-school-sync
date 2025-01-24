@@ -4,8 +4,17 @@ import { setDoc, doc } from 'firebase/firestore';
 import { db } from  './../api/config/firebase';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import SignOutButtons from './SignOutButtons.tsx';
+import SignedIn from './SignedIn.tsx';
+import { useState} from 'react';
+
 
 export default function NavBar() {
+
+  // faking authentication
+  const[auth, setAuth] = useState(false);
+
+  const navigate = useNavigate();
   async function seedDatabase() {
     for (const event of sampleData) {
       const { id, ...eventData } = event;
@@ -14,7 +23,6 @@ export default function NavBar() {
       });
     }
   }
-  const navigate = useNavigate();
 
   return (
     <Menu inverted={true} fixed='top'>
@@ -43,11 +51,7 @@ export default function NavBar() {
           > Seed DB </Button>
         </MenuItem>
         )} 
-        <MenuItem position='right'>
-          <Button basic inverted content='UserPage' onClick={() => navigate('/user-profile')}/>
-          <Button basic inverted content='Login' />
-          <Button basic inverted content='Register' />
-        </MenuItem>
+        {auth ? <SignedIn setAuth={setAuth}/> : <SignOutButtons setAuth={setAuth}/> }
       </Container>
     </Menu>
   )
