@@ -9,7 +9,7 @@ function UserHeader() {
                 <Item> 
                     <Item.Image pic size='small' src={'/user.png'}/>
                     <Item.Content verticalAlign='middle'>
-                        <Header as='h1'content='Display Name'/>
+                        <Header as='h1'content='Name'/>
                     </Item.Content>
                 </Item>
             </Item.Group>
