@@ -3,7 +3,7 @@ import UserHeader from './UserHeader';
 import UserContent from './UserContent';
 
 
-export default function UserProfile() {
+function UserProfile() {
   return (
   <Grid>
     <Grid.Column width={16}>
@@ -13,3 +13,4 @@ export default function UserProfile() {
   </Grid>
   )
 }
+export default UserProfile;
