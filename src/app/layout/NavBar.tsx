@@ -51,7 +51,28 @@ export default function NavBar() {
           > Seed DB </Button>
         </MenuItem>
         )} 
-        {auth ? <SignedIn setAuth={setAuth}/> : <SignOutButtons setAuth={setAuth}/> }
+        <Menu.Item>
+         <Button
+            as={NavLink} 
+            to='/login'
+            floated='right'
+            positive={true}
+            inverted={true}
+            content='Login' />
+        </Menu.Item>
+
+        <Menu.Item>
+         <Button
+            as={NavLink} 
+            to='/register'
+            floated='right'
+            positive={true}
+            inverted={true}
+            content='Register' />
+        </Menu.Item>
+        
+
+        {/* {auth ? <SignedIn setAuth={setAuth}/> : <SignOutButtons setAuth={setAuth}/> } */}
       </Container>
     </Menu>
   )
