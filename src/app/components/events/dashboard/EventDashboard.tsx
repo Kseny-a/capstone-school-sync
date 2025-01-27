@@ -6,16 +6,15 @@ import { useEffect, useState } from 'react'
 import { AppEvent } from "../../../types/event"
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
+import { sampleData } from "../../../api/sampleData";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { setEvents } from "../../../features/events/eventSlice";
 // import { sampleData } from "../../../api/sampleData";
 
 function EventDashboard() {
+  const dispatch = useAppDispatch();
+  const { events } = useAppSelector(state => state.events);
   
-  const [eventData, setEventData] = useState<AppEvent[]>([])
-  
-
-  // useEffect(() => {
-  //   setEventData(sampleData)
-  // }, [])
   useEffect(()=> {
     const q = query(collection(db, 'events'));
     const unsubscribe = onSnapshot(q, {
@@ -29,7 +28,8 @@ function EventDashboard() {
           ...data,
           date: date.toDateString() } as AppEvent);
         });
-        setEventData(events);
+        console.log("Dispatching action with payload:", events); 
+        dispatch(setEvents(events));
       },
       error: error => console.log(error),
       complete: () => console.log('done') 
@@ -41,7 +41,7 @@ function EventDashboard() {
   return (
     <Grid>
       <Grid.Column width = {10}>
-          <EventList eventData={eventData}/>
+          <EventList eventData={events}/>
       </Grid.Column>
       <Grid.Column width = {6}>
         <h2>Placeholder</h2>
