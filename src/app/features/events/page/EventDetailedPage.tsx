@@ -1,16 +1,41 @@
 import { Grid } from "semantic-ui-react"
-import EventDetailedInfo from './EventDetailedInfo'
 import EventDetailedHeader from "./EventDetailedHeader"
+import EventDetailedSideBar from "./EventDetailedSideBar"
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { useParams } from "react-router-dom";
+import { db } from "../../../api/config/firebase";
 
 function EventDetailedPage() {
+  const { id } = useParams<{ id: string }>();
+  const [event, setEvent] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      if (id) {
+        const eventRef = doc(db, "events", id)
+        const eventDoc = await getDoc(eventRef)
+        if (eventDoc.exists()) {
+          setEvent(eventDoc.data());
+        } else {
+          console.log("Event not found");
+        }
+      }
+    }
+    fetchEvent();
+  }, [id]);
+
+  if (!event) {
+    return <p>Loading event details...</p>;
+  }
+
   return (
     <Grid>
       <Grid.Column width = {10}>
-        <EventDetailedHeader/>
-        <EventDetailedInfo/>
+        <EventDetailedHeader event={event}/>
       </Grid.Column>
       <Grid.Column width = {6}>
-        SideBar
+        <EventDetailedSideBar/>
       </Grid.Column>
     </Grid>
   )
