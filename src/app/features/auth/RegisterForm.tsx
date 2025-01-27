@@ -58,47 +58,47 @@ function RegisterForm({ setAuth }: Props) {
   return (
     
     <Form onSubmit={handleSubmit}>
-    <FormField>
+    <Form.Field>
       <label>Parent first name</label>
       <input placeholder='Parent first name'
             type='text' 
             value={userForm.firstName}
             name='firstName'
             onChange={handleInputChange}/>
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Parent last name</label>
       <input placeholder='Parent last name'
             type='text' 
             value={userForm.lastName}
             name='lastName'
             onChange={handleInputChange} />
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Email</label>
       <input placeholder='Email' 
             type='email' 
             value={userForm.email}
             name='email'
             onChange={handleInputChange}/>
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Password</label>
       <input placeholder='Password'
             type='password' 
             value={userForm.password}
             name='password'
             onChange={handleInputChange}/>
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Child's name</label>
       <input placeholder="Child's name"
             type='text' 
             value={userForm.childName}
             name='childName'
             onChange={handleInputChange} />
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Child's grade</label>
       <Dropdown placeholder='Select Grade'
                 fluid
@@ -106,7 +106,7 @@ function RegisterForm({ setAuth }: Props) {
                 options={gradeOptions}
                 onChange={handleGradeChange}
                 value={selectedGrade}/>
-    </FormField>
+    </Form.Field>
 
     <Button type='submit'>Submit</Button>
   </Form>

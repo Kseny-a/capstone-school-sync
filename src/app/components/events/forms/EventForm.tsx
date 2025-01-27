@@ -1,9 +1,12 @@
-import { Button, Form, Header, Segment } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react'
 import { AppEvent } from '../../../types/event'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, Timestamp, updateDoc } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 import { setDoc, collection } from 'firebase/firestore'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/package.json';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 type Props = {
@@ -11,11 +14,20 @@ type Props = {
   addEvent: (event: AppEvent) => void
   selectedEvent: AppEvent | null
   updateEvent: (event: AppEvent) => void
+  
 }
 
+const gradeOptions = [
+  { key: 'kg', text: 'Kindergarten', value: 'kindergarten' },
+  { key: '1', text: '1st grade', value: '1st' },
+  { key: '2', text: '2nd grade', value: '2nd' },
+  { key: '3', text: '3rd grade', value: '3rd' },
+  { key: '4', text: '4th grade', value: '4th' },
+  { key: '5', text: '5th grade', value: '5th' },
+];
+
 function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props) {
-  
-  const defaultValues = selectedEvent ?? {
+  const [eventForm, setEventForm] = useState({
     title: '',
     date: '',
     time: '',
@@ -25,22 +37,31 @@ function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props)
     hostedBy: 'Alice',
     hostedPhotoURL: '',
     attendees:[],
-  };
-  
+    grade: '',
 
-  const [eventForm, setEventForm] = useState(defaultValues);
+  });
+  const [selectedGrade, setSelectedGrade] = useState('');
 
-  
+    const handleGradeChange = (e: React.SyntheticEvent<HTMLElement>, { value }: any) => {
+        setSelectedGrade(value);
+        setEventForm({ ...eventForm, grade: value });
+    };
+
   const handleInputChange = (e: any) => {
     const {name, value} = e.target
     setEventForm({...eventForm, [name]: value})
   }
+
+  const handleDateChange = (date: Date) => {
+    setEventForm({ ...eventForm, date: date.toISOString() });
+  };
+
   async function updateTheEvent(data: AppEvent) {
     if (!selectedEvent) return;
     const docRef = doc(db, 'events', selectedEvent.id);
     await updateDoc(docRef, {
       ...data,
-      date: new Date(data.date).toDateString(),
+      date: Timestamp.fromDate(new Date(data.date as string)),
     });
   }
 
@@ -48,6 +69,7 @@ function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props)
     const newEventRef = doc(collection(db,'events'));
     await setDoc(newEventRef, {
       ...data,
+      date: Timestamp.fromDate(new Date(data.date as string)),
     });
     return newEventRef;
   } 
@@ -87,12 +109,12 @@ function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props)
           onChange={handleInputChange}/>
         </Form.Field>
         <Form.Field>
-          <input 
-          type='text' 
-          placeholder='Date mm/dd/yyyy'
-          value={eventForm.date || ''}
-          name='date'
-          onChange={handleInputChange}/> 
+          <DatePicker
+           selected={eventForm.date ? new Date(eventForm.date) : null}
+           onChange={handleDateChange}
+           dateFormat='MM/dd/yyyy'
+           placeholderText='Select Date'
+          /> 
         </Form.Field>
         <Form.Field>
           <input 
@@ -125,6 +147,15 @@ function EventForm({ setShowForm, addEvent, selectedEvent, updateEvent }: Props)
           value={eventForm.address || ''}
           name='address'
           onChange={e => handleInputChange(e)}/> 
+        </Form.Field>
+          <Form.Field>
+      
+          <Dropdown placeholder='Select Grade'
+            fluid
+            selection
+            options={gradeOptions}
+            onChange={handleGradeChange}
+            value={selectedGrade}/>
         </Form.Field>
         <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
         <Button onClick={() => setShowForm(false)} type='button' floated='right' inverted color='blue' content='Cancel'></Button>
