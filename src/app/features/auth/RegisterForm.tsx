@@ -17,7 +17,7 @@ const gradeOptions = [
     { key: '4', text: '4th grade', value: '4th' },
     { key: '5', text: '5th grade', value: '5th' },
   ];
-function RegisterForm() {
+function RegisterForm({ setAuth }: Props) {
     const [userForm, setUserForm] = useState<AppUser>({
         id: '',
         firstName: '',
@@ -47,7 +47,9 @@ function RegisterForm() {
             const userRef = doc(collection(db, 'users'));
             await setDoc(userRef, { ...userForm, id: userRef.id });
             console.log('User registered successfully');
+            setAuth(true);
             navigate("/user-profile");
+
         } catch (error) {
             console.log('Error registering user:', error);
         }
