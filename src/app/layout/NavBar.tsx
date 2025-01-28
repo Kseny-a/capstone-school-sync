@@ -9,12 +9,12 @@ import SignedIn from './SignedIn.tsx';
 import { useState} from 'react';
 
 
-export default function NavBar() {
+export default function NavBar( { auth, setAuth }: Props) {
 
   // faking authentication
-  const[auth, setAuth] = useState(false);
+  // const[auth, setAuth] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   async function seedDatabase() {
     for (const event of sampleData) {
       const { id, ...eventData } = event;
@@ -51,7 +51,12 @@ export default function NavBar() {
           > Seed DB </Button>
         </MenuItem>
         )} 
-        <Menu.Item>
+        <Menu.Menu position='right'>
+        {auth ?
+          (<SignedIn setAuth={setAuth}/> ) :
+          (
+          <>
+            <Menu.Item>
          <Button
             as={NavLink} 
             to='/login'
@@ -70,7 +75,10 @@ export default function NavBar() {
             inverted={true}
             content='Register' />
         </Menu.Item>
-        
+        </>
+          )
+        }
+        </Menu.Menu>
 
         {/* {auth ? <SignedIn setAuth={setAuth}/> : <SignOutButtons setAuth={setAuth}/> } */}
       </Container>

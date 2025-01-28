@@ -17,7 +17,7 @@ const gradeOptions = [
     { key: '4', text: '4th grade', value: '4th' },
     { key: '5', text: '5th grade', value: '5th' },
   ];
-function RegisterForm() {
+function RegisterForm({ setAuth }: Props) {
     const [userForm, setUserForm] = useState<AppUser>({
         id: '',
         firstName: '',
@@ -47,7 +47,9 @@ function RegisterForm() {
             const userRef = doc(collection(db, 'users'));
             await setDoc(userRef, { ...userForm, id: userRef.id });
             console.log('User registered successfully');
+            setAuth(true);
             navigate("/user-profile");
+
         } catch (error) {
             console.log('Error registering user:', error);
         }
@@ -56,47 +58,47 @@ function RegisterForm() {
   return (
     
     <Form onSubmit={handleSubmit}>
-    <FormField>
+    <Form.Field>
       <label>Parent first name</label>
       <input placeholder='Parent first name'
             type='text' 
             value={userForm.firstName}
             name='firstName'
             onChange={handleInputChange}/>
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Parent last name</label>
       <input placeholder='Parent last name'
             type='text' 
             value={userForm.lastName}
             name='lastName'
             onChange={handleInputChange} />
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Email</label>
       <input placeholder='Email' 
             type='email' 
             value={userForm.email}
             name='email'
             onChange={handleInputChange}/>
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Password</label>
       <input placeholder='Password'
             type='password' 
             value={userForm.password}
             name='password'
             onChange={handleInputChange}/>
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Child's name</label>
       <input placeholder="Child's name"
             type='text' 
             value={userForm.childName}
             name='childName'
             onChange={handleInputChange} />
-    </FormField>
-    <FormField>
+    </Form.Field>
+    <Form.Field>
       <label>Child's grade</label>
       <Dropdown placeholder='Select Grade'
                 fluid
@@ -104,7 +106,7 @@ function RegisterForm() {
                 options={gradeOptions}
                 onChange={handleGradeChange}
                 value={selectedGrade}/>
-    </FormField>
+    </Form.Field>
 
     <Button type='submit'>Submit</Button>
   </Form>

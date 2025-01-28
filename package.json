@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@reduxjs/toolkit": "^2.5.1",
+=======
+    "@types/react-datepicker": "^6.2.0",
+    "date-fns": "^4.1.0",
+>>>>>>> 737c240faf003aa210f4f721d9a48e394115be68
     "firebase": "^11.2.0",
     "react": "^18.3.1",
+    "react-datepicker": "^7.6.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "react-redux": "^9.2.0",

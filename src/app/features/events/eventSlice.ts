@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppEvent } from "../../types/event"
-import { Timestamp } from "firebase/firestore"
 
 type State = {
     events: AppEvent[]

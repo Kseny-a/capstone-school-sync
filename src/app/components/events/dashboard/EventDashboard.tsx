@@ -1,15 +1,12 @@
 import { Grid } from "semantic-ui-react";
 import EventList from "./EventList";
-// import EventForm from "../form/EventForm";
-// import { sampleData } from "../../../api/sampleData";
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { AppEvent } from "../../../types/event"
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
-import { sampleData } from "../../../api/sampleData";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { setEvents } from "../../../features/events/eventSlice";
-// import { sampleData } from "../../../api/sampleData";
+
 
 function EventDashboard() {
   const dispatch = useAppDispatch();
@@ -18,7 +15,7 @@ function EventDashboard() {
   useEffect(()=> {
     const q = query(collection(db, 'events'));
     const unsubscribe = onSnapshot(q, {
-      next: querySnapshot => {
+      next: (querySnapshot) => {
         const events: AppEvent[] = [];
         querySnapshot.forEach(doc => {
           const data = doc.data();
@@ -28,14 +25,13 @@ function EventDashboard() {
           ...data,
           date: date.toDateString() } as AppEvent);
         });
-        console.log("Dispatching action with payload:", events); 
         dispatch(setEvents(events));
       },
       error: error => console.log(error),
       complete: () => console.log('done') 
   });
   return () => unsubscribe()
-  }, []);
+  }, [dispatch]);
 
 
   return (
