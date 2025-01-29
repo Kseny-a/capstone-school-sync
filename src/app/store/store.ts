@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSlice } from '../features/auth/authSlice';
 import  modalReducer  from '../modals/modalSlice';
+import modalSlice from '../modals/modalSlice';
 
 
 export const store = configureStore({

@@ -2,6 +2,7 @@ import { Menu, Image, Dropdown, DropdownMenu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
+import { logOut } from '../features/auth/authSlice';
 
 
 // type Props = {

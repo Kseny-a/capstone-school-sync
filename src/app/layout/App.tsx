@@ -10,7 +10,7 @@ function App() {
   
   return (
   <div>
-    {/* <ManageModal/> */}
+    <ManageModal/>
     <NavBar/>
       <Container className='main'> 
         {location.pathname === '/' ? <HomePage/>: <Outlet/>}

@@ -21,11 +21,10 @@ const modalSlice = createSlice({
             state.data = action.payload.data;
 
         },
-        closeModal: (state) =>{
+        closeModal: (state) => {
             state.type = null;
             state.open = false;
             state.data = null;
-
         },
     },
 });
