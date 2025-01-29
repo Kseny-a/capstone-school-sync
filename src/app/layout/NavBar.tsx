@@ -7,9 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import SignOutButtons from './SignOutButtons.tsx';
 import SignedIn from './SignedIn.tsx';
 import { useState} from 'react';
+import { useAppSelector } from '../store/store.ts';
 
 
-export default function NavBar( { auth, setAuth }: Props) {
+export default function NavBar() {
+const {authenticated} =  useAppSelector(state => state.auth);
 
   // faking authentication
   // const[auth, setAuth] = useState(false);
@@ -51,36 +53,7 @@ export default function NavBar( { auth, setAuth }: Props) {
           > Seed DB </Button>
         </MenuItem>
         )} 
-        <Menu.Menu position='right'>
-        {auth ?
-          (<SignedIn setAuth={setAuth}/> ) :
-          (
-          <>
-            <Menu.Item>
-         <Button
-            as={NavLink} 
-            to='/login'
-            floated='right'
-            positive={true}
-            inverted={true}
-            content='Login' />
-        </Menu.Item>
-
-        <Menu.Item>
-         <Button
-            as={NavLink} 
-            to='/register'
-            floated='right'
-            positive={true}
-            inverted={true}
-            content='Register' />
-        </Menu.Item>
-        </>
-          )
-        }
-        </Menu.Menu>
-
-        {/* {auth ? <SignedIn setAuth={setAuth}/> : <SignOutButtons setAuth={setAuth}/> } */}
+        {authenticated ? <SignedIn/> : <SignOutButtons/> }
       </Container>
     </Menu>
   )
