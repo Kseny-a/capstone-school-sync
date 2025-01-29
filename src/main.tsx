@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './app/layout/styles.css'
 import { RouterProvider } from 'react-router-dom';
 import { router } from './app/router/Routes';
-import { store } from './app/store/store';
 import { Provider } from 'react-redux';
+import { store } from './app/store'
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
