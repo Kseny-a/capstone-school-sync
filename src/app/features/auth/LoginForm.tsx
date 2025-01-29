@@ -6,24 +6,30 @@ import ModalCover from '../../modals/ModalCover';
 import { closeModal } from '../../modals/modalSlice';
 import { useForm } from "react-hook-form";
 import type { FieldValues } from 'react-hook-form';
-// import { signInWithEmailAndPassword } from 'firebase/auth';
-// import { auth } from '../../api/config/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../api/config/firebase';
 import { db } from '../../api/config/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 function LoginForm() {
   const {register, handleSubmit, formState: {isSubmitting, isValid, isDirty, errors }} = useForm({
     mode: 'onTouched',
   });
   const dispatch = useAppDispatch();
-  function onSubmit(data: FieldValues) {
-    // const result = await signInWithEmailAndPassword(auth, data.email, data.password)
-      console.log(data);
-      // dispatch(logIn(result.user));
+  async function onSubmit(data: FieldValues) {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password)
       dispatch(closeModal());}
-
-
+    catch (error) {
+      console.log(error);
+    }
+  }
+  // function onSubmit(data: FieldValues) {
+  //   dispatch(logIn(data));
+  //   dispatch(closeModal());
+  // }
+  
  
   // const result = await signInWithEmailAndPassword(auth, data.email, data.password)
   // console.log(result);
@@ -62,6 +68,5 @@ function LoginForm() {
   </ModalCover>
   );
 }
-
 
 export default LoginForm;
