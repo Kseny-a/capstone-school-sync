@@ -1,15 +1,13 @@
 
 import { Form, FormField, Button } from 'semantic-ui-react'; 
 import { useAppDispatch } from '../../store/store';
-import { logIn } from './authSlice';
 import ModalCover from '../../modals/ModalCover';
 import { closeModal } from '../../modals/modalSlice';
 import { useForm } from "react-hook-form";
 import type { FieldValues } from 'react-hook-form';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../api/config/firebase';
-import { db } from '../../api/config/firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+
 
 
 function LoginForm() {
