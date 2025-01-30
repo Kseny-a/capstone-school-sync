@@ -27,10 +27,10 @@ export const authSlice = createSlice({
                     id: user.id,
                     email: user.email,
                     providerId: user.providerData[0].providerId,
-                    // firstName: user.firstName,
-                    // lastName: user.lastName,
-                    // childName: user.childName,
-                    // grade: user.grade,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    childName: user.childName,
+                    grade: user.grade,
                 }
                 return { payload: mapped }
             }
