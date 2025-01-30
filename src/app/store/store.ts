@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { eventSlice } from './features/events/eventSlice'
+import { eventSlice } from '../features/events/eventSlice'
+import { authSlice } from '../features/auth/authSlice';
+import  modalReducer  from '../modals/modalSlice';
 
 export const store = configureStore({
   reducer: {
-    events: eventSlice.reducer
+    events: eventSlice.reducer,
+    auth: authSlice.reducer,
+    modals: modalReducer,
   }
 })
 
@@ -12,6 +16,9 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+
+export type AppStore = typeof store
+
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()

@@ -1,16 +1,38 @@
-import { Button, MenuItem } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
+import { Button, Menu } from 'semantic-ui-react';
+import { useAppDispatch } from '../store/store';
+import { openModal } from '../modals/modalSlice';
 
-type Props = {
-    setAuth: (value: boolean) => void;
-  }
+// type Props = {
+//     setAuth: (value: boolean) => void;
+//   }
 
-function SignOutButtons({setAuth}: Props) {
+function SignOutButtons() {
+  const dispatch = useAppDispatch();
+  
   return (
     <div>
-       <MenuItem position='right'>
-          <Button basic inverted content='Login'onClick={() => setAuth(true)}/>
-          <Button basic inverted content='Register' />
-        </MenuItem>
+       
+        <Menu.Item position='right'>
+         <Button
+            as={NavLink} 
+            to='/login'
+            onClick = {()=> dispatch(openModal({type: 'LoginForm', data: {}}))}
+            floated='right'
+            positive={true}
+            inverted={true}
+            content='Login' />
+        </Menu.Item>
+        <Menu.Item>
+         <Button
+            as={NavLink} 
+            to='/register'
+            floated='right'
+            positive={true}
+            inverted={true}
+            content='Register' />
+        </Menu.Item>
+    
     </div>
   )
 }
