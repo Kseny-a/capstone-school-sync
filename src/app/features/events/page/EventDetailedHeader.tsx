@@ -3,9 +3,10 @@ import { Segment, Item, Header, Button, Grid, Icon } from "semantic-ui-react"
 import { AppEvent } from "../../../types/event"
 
 
-type Props={
+type Props = {
   event: AppEvent
 }
+
 export default function EventDetailedHeader({event}: Props) {
   return (
     <Segment.Group>
@@ -30,7 +31,7 @@ export default function EventDetailedHeader({event}: Props) {
         <Button>Unattend</Button>
         <Button>Attend</Button>
 
-        <Button as={Link} to={`/manage/${event}`}floated="right">
+        <Button as={Link} to={`/manage/${event.id}`} floated="right">
           Manage Event
         </Button>
       </Segment>
@@ -52,7 +53,7 @@ export default function EventDetailedHeader({event}: Props) {
             <Icon name="calendar" color="teal" />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>{event.date.toDate().toLocaleString()}</span>
+            <span>{event.date.toString()} {event.time}</span>
           </Grid.Column>
         </Grid>
       </Segment>

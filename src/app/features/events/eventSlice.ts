@@ -10,9 +10,14 @@ const initialState: State = {
 }
 
 export const eventSlice = createSlice({
-    name: 'events',
+    name: 'eventsData',
     initialState,
     reducers: {
+
+        deleteEvent: (state, action) => {
+            state.events = state.events.filter(event => event.id !== action.payload.id);
+        },
+
         setEvents: {
             reducer: (state, action: PayloadAction<AppEvent[]>) => {
             state.events = action.payload
@@ -28,6 +33,6 @@ export const eventSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setEvents } = eventSlice.actions
+export const { createEvent, updateEvent, deleteEvent, setEvents } = eventSlice.actions
 
 export default eventSlice.reducer

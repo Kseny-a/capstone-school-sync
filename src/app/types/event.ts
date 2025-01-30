@@ -11,8 +11,7 @@ export type AppEvent = {
     hostedBy: string
     hostPhotoURL: string
     attendees: Attendee[]
-    
-
+    grade: string
 }
 
 export type Attendee = {

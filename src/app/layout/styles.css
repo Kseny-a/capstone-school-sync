@@ -9,3 +9,14 @@ body {
 .ui.main.container {
     margin-top: 7em;
 }
+
+.master {
+    display: flex;
+    align-items: center;
+    background-color: rgba(22, 63, 187, 0.596) !important; 
+    height: 100vh;
+}
+
+.master h1.u1.header {
+    font-size: 4em;
+}
