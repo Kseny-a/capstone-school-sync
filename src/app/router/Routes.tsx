@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import EventDashboard from "../features/events/dashboard/EventDashboard";
 import EventForm from "../features/events/forms/EventForm";
 import App from "../layout/App";
-import EventDetailedPage from "../features/events/page/EventDetailedPage";
+import EventDetailedPage from "../features/events/eventDetails/EventDetailedPage";
 import UserProfile from "../features/users/UserProfile";
 import LoginForm from "../features/auth/LoginForm";
 import RegisterForm from "../features/auth/RegisterForm";

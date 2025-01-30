@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { AppEvent } from "../../../types/event"
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { setEvents } from "../../../features/events/eventSlice";
 
 

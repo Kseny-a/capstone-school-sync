@@ -5,7 +5,7 @@ import EventDetailedSideBar from "./EventDetailedSideBar"
 // import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 // import { db } from "../../../api/config/firebase";
-import { useAppSelector } from "../../../store";
+import { useAppSelector } from "../../../store/store";
 
 function EventDetailedPage() {
   const { id } = useParams<{ id: string }>();

@@ -8,8 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/package.json';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { updateEvent, createEvent } from '../eventSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
 
 
 const gradeOptions = [
