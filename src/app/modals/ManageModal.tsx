@@ -2,10 +2,12 @@ import LoginForm from "../features/auth/LoginForm";
 import { useAppSelector, useAppDispatch } from "../store/store";
 import { closeModal } from './modalSlice';
 import ModalCover from './ModalCover'; 
+import RegisterForm from "../features/auth/RegisterForm";
 
 function ManageModal() {
     const modalLookup = {
-        LoginForm
+        LoginForm,
+        RegisterForm
     }
     const {type, data, open} = useAppSelector(state => state.modals)
     const dispatch = useAppDispatch();

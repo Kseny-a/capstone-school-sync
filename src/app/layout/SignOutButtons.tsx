@@ -17,20 +17,26 @@ function SignOutButtons() {
          <Button
             as={NavLink} 
             to='/login'
+            basic inverted
             onClick = {()=> dispatch(openModal({type: 'LoginForm', data: {}}))}
-            floated='right'
-            positive={true}
-            inverted={true}
+            // floated='right'
+            // positive={true}
+            // inverted={true}
             content='Login' />
         </Menu.Item>
         <Menu.Item>
          <Button
+         basic inverted
+         content = 'Register'
+         onClick={()=> dispatch(openModal({type: 'RegisterForm', data: {}}))}
+         
             as={NavLink} 
             to='/register'
-            floated='right'
-            positive={true}
-            inverted={true}
-            content='Register' />
+            // floated='right'
+            // positive={true}
+            // inverted={true}
+            // content='Register'
+             />
         </Menu.Item>
     
     </div>
