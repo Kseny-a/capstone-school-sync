@@ -27,7 +27,7 @@ function SignedIn() {
         <Dropdown pointing='top left' text={currentUser?.email as string}>
             <DropdownMenu>
                 <Dropdown.Item as={Link} to='/createEvent' text='Create event' icon='plus'/>
-                <Dropdown.Item as={Link} to='/user-profile' text='My profile' icon='user'/>
+                <Dropdown.Item as={Link} to={`/user-profile/${currentUser?.uid}`} text='My profile' icon='user'/>
                 <Dropdown.Item onClick={handleSignOut} text='Sign out' icon='power'/>    
             </DropdownMenu>
         </Dropdown>

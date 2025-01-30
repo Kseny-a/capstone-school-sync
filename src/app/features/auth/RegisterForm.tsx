@@ -99,7 +99,7 @@ const gradeOptions = [
 //     };
 
   return (
-    <ModalCover header='Register to SchoolSync'>
+    <ModalCover header='Register to SchoolSync' size='small'>
     <Form onSubmit={handleSubmit(onSubmit)}>
     <Form.Field>
       <label>Parent first name</label>

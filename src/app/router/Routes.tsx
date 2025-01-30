@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
         {path: "/events", element: <EventDashboard />},
         {path: "/events/:id", element: <EventDetailedPage/>},
         {path: "/manage/:id", element: <EventForm/>},
-        {path: "/user-profile", element: <UserProfile/>},
+        {path: "/user-profile/:userId", element: <UserProfile/>},
         {path: "/createEvent/", element: <EventForm />},
         {path: '/login', element: <LoginForm />},
         {path: '/register', element: <RegisterForm />},

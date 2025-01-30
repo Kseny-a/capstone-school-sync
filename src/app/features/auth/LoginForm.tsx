@@ -35,7 +35,7 @@ function LoginForm() {
   //   dispatch(closeModal());
 
   return (
-    <ModalCover header='Sign-in to SchoolSync'>
+    <ModalCover header='Sign-in to SchoolSync' size='mini'>
     <Form onSubmit={handleSubmit(onSubmit)}>
     <FormField>
       <label>Email</label>
