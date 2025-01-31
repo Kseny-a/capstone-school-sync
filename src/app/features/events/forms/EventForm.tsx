@@ -1,7 +1,7 @@
 import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react'
 import { AppEvent } from '../../../types/event'
-import { doc, Timestamp, updateDoc } from 'firebase/firestore'
+import { addDoc, doc, Timestamp, updateDoc } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 import { setDoc, collection } from 'firebase/firestore'
 import DatePicker from 'react-datepicker';
@@ -27,7 +27,6 @@ function EventForm() {
 
   // initial form state
   const initialValues = event ?? {
-    id: '',
     title: '',
     date: '',
     time: '',
@@ -71,9 +70,17 @@ function EventForm() {
     });
   }
 
+  // async function createTheEvent(data: AppEvent) {
+  //   const newEventRef = doc(collection(db, 'events'));
+  //   await addDoc(newEventRef, {
+  //     ...data,
+  //     date: Timestamp.fromDate(new Date(data.date as string)),
+  //   });
+  //   return newEventRef;
+  // }
+
   async function createTheEvent(data: AppEvent) {
-    const newEventRef = doc(collection(db, 'events'));
-    await setDoc(newEventRef, {
+    const newEventRef = await addDoc(collection(db, 'events'), {
       ...data,
       date: Timestamp.fromDate(new Date(data.date as string)),
     });
@@ -88,7 +95,7 @@ function EventForm() {
         navigate(`/events/${eventForm.id}`);
       } else {
         const ref = await createTheEvent(eventForm);
-        navigate(`/events/${ref.id}`);
+        navigate("/events");
       }
     } catch (error) {
       console.log(error)
