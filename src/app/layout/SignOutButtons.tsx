@@ -23,8 +23,6 @@ function SignOutButtons() {
             // positive={true}
             // inverted={true}
             content='Login' />
-        </Menu.Item>
-        <Menu.Item>
          <Button
          basic inverted
          content = 'Register'
@@ -32,6 +30,8 @@ function SignOutButtons() {
          
             as={NavLink} 
             to='/register'
+            // style={{ marginLeft: '0.5em' }} 
+
             // floated='right'
             // positive={true}
             // inverted={true}
