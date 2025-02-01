@@ -1,7 +1,7 @@
 import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react'
 import { AppEvent } from '../../../types/event'
-import { doc, Timestamp, updateDoc } from 'firebase/firestore'
+import { addDoc, doc, Timestamp, updateDoc } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 import { setDoc, collection } from 'firebase/firestore'
 import DatePicker from 'react-datepicker';
@@ -70,6 +70,15 @@ function EventForm() {
       date: Timestamp.fromDate(new Date(data.date as string)),
     });
   }
+
+  // async function createTheEvent(data: AppEvent) {
+  //   const newEventRef = doc(collection(db, 'events'));
+  //   await addDoc(newEventRef, {
+  //     ...data,
+  //     date: Timestamp.fromDate(new Date(data.date as string)),
+  //   });
+  //   return newEventRef;
+  // }
 
   async function createTheEvent(data: AppEvent) {
     const newEventRef = doc(collection(db, 'events'));
