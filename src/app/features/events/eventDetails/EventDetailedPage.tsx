@@ -1,11 +1,12 @@
 import { Grid } from "semantic-ui-react"
 import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedSideBar from "./EventDetailedSideBar"
-// import { useEffect, useState } from "react";
-// import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-// import { db } from "../../../api/config/firebase";
+import { db } from "../../../api/config/firebase";
 import { useAppSelector } from "../../../store/store";
+import { setEvents } from "../eventSlice";
 
 function EventDetailedPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ function EventDetailedPage() {
   //       const eventRef = doc(db, "events", id)
   //       const eventDoc = await getDoc(eventRef)
   //       if (eventDoc.exists()) {
-  //         setEvent(eventDoc.data());
+  //         setEvents(eventDoc.data());
   //       } else {
   //         console.log("Event not found");
   //       }

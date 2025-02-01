@@ -27,7 +27,6 @@ function EventForm() {
 
   // initial form state
   const initialValues = event ?? {
-    id: '',
     title: '',
     date: '',
     time: '',
@@ -65,6 +64,7 @@ function EventForm() {
   async function updateTheEvent(data: AppEvent) {
     if (!event) return;
     const docRef = doc(db, 'events', event.id);
+    console.log('event.id', event.id)
     await updateDoc(docRef, {
       ...data,
       date: Timestamp.fromDate(new Date(data.date as string)),
@@ -73,22 +73,25 @@ function EventForm() {
 
   async function createTheEvent(data: AppEvent) {
     const newEventRef = doc(collection(db, 'events'));
+    const newEventId = newEventRef.id
     await setDoc(newEventRef, {
       ...data,
+      id: newEventId,
       date: Timestamp.fromDate(new Date(data.date as string)),
     });
-    return newEventRef;
+    return newEventId;
   }
 
-  async function onSubmit(data: React.FormEvent<HTMLFormElement>) {
-    data.preventDefault()
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     try {
       if (eventForm.id) {
         await updateTheEvent(eventForm);
         navigate(`/events/${eventForm.id}`);
       } else {
-        const ref = await createTheEvent(eventForm);
-        navigate(`/events/${ref.id}`);
+        const newEventId = await createTheEvent(eventForm)
+        setEventForm(prev => ({...prev, id: newEventId}))
+        navigate(`/events/${newEventId}`);
       }
     } catch (error) {
       console.log(error)
