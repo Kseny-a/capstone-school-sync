@@ -2,32 +2,32 @@ import { Grid } from "semantic-ui-react"
 import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedSideBar from "./EventDetailedSideBar"
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../../api/config/firebase";
-import { useAppSelector } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { setEvents } from "../eventSlice";
+import { id } from "date-fns/locale";
 
 function EventDetailedPage() {
   const { id } = useParams<{ id: string }>();
   const event = useAppSelector(state => state.events.events.find(e => e.id === id))
+  const dispatch = useAppDispatch()
 
   if (!event) return <h2>event not found</h2>
 
-  // useEffect(() => {
-  //   const fetchEvent = async () => {
-  //     if (id) {
-  //       const eventRef = doc(db, "events", id)
-  //       const eventDoc = await getDoc(eventRef)
-  //       if (eventDoc.exists()) {
-  //         setEvents(eventDoc.data());
-  //       } else {
-  //         console.log("Event not found");
-  //       }
-  //     }
-  //   }
-  //   fetchEvent();
-  // }, [id]);
+  useEffect(() => {
+    if (!id) return
+    const unsub = onSnapshot(doc(db, 'events', id),{
+      next: doc => {
+        dispatch(setEvents({id: doc.id, ...doc.data()}))
+      },
+      error: err => {
+        console.log(err)
+      }
+    })
+    return () => unsub()
+  }, [id, dispatch])
 
   // if (!event) {
   //   return <p>Loading event details...</p>;

@@ -13,15 +13,12 @@ function EventListItem({ event }: Props) {
   const eventDate = event.date instanceof Date ? event.date.toISOString().split('T')[0]: event.date;
  
   async function deleteEvent(eventId: string) {
-    console.log('eventID',eventId)
     if (!eventId) {
       console.log('Event ID is missing');
       return;
     }
-      // const eventRef = doc(db, 'events', eventId);
       try {
         await deleteDoc(doc(db, 'events', eventId));
-        console.log('Successful')
       }
       catch (error) {
         console.error('Error deleting document: ', error);

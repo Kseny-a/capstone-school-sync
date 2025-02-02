@@ -6,9 +6,10 @@ import { db } from '../../../api/config/firebase'
 import { setDoc, collection } from 'firebase/firestore'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/package.json';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { setEvents } from '../eventSlice';
 
 
 const gradeOptions = [
@@ -39,6 +40,7 @@ function EventForm() {
     grade: '',
 
   }
+
   const [eventForm, setEventForm] = useState<AppEvent>(initialValues)
   const [selectedGrade, setSelectedGrade] = useState<string>(eventForm.grade || '')
   const dispatch = useAppDispatch()
@@ -64,11 +66,10 @@ function EventForm() {
   async function updateTheEvent(data: AppEvent) {
     if (!event) return;
     const docRef = doc(db, 'events', event.id);
-    console.log('event.id', event.id)
     await updateDoc(docRef, {
       ...data,
       date: Timestamp.fromDate(new Date(data.date as string)),
-    });
+    })
   }
 
   // async function createTheEvent(data: AppEvent) {
@@ -83,11 +84,13 @@ function EventForm() {
   async function createTheEvent(data: AppEvent) {
     const newEventRef = doc(collection(db, 'events'));
     const newEventId = newEventRef.id
-    await setDoc(newEventRef, {
+    const newEventData = {
       ...data,
       id: newEventId,
       date: Timestamp.fromDate(new Date(data.date as string)),
-    });
+    }
+    await setDoc(newEventRef, newEventData)
+    dispatch(setEvents(newEventData))
     return newEventId;
   }
 
@@ -99,7 +102,7 @@ function EventForm() {
         navigate(`/events/${eventForm.id}`);
       } else {
         const newEventId = await createTheEvent(eventForm)
-        setEventForm(prev => ({...prev, id: newEventId}))
+        // setEventForm(prev => ({...prev, id: newEventId}))
         navigate(`/events/${newEventId}`);
       }
     } catch (error) {
