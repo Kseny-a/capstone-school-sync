@@ -52,6 +52,7 @@ const gradeOptions = [
           firstName: data.firstName,
           lastName: data.lastName,
           childName: data.childName,
+          password: data.password,
           grade: data.grade,
         });
         dispatch(closeModal());}

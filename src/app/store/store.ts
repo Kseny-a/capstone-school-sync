@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { eventSlice } from '../features/events/eventSlice'
 import { authSlice } from '../features/auth/authSlice';
 import  modalReducer  from '../modals/modalSlice';
+import  userReducer from '../features/users/UserSlice';
 
 export const store = configureStore({
   reducer: {
     events: eventSlice.reducer,
     auth: authSlice.reducer,
     modals: modalReducer,
-  }
-})
+    profiles: userReducer,
+  },
+});
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

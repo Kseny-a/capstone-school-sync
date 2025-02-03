@@ -1,15 +1,20 @@
 import {Grid, Segment, Item, Header, Statistic } from 'semantic-ui-react';
+import { Profile } from '../../types/profile';
+
+type Props = {
+    profile: Profile;
+}
 
 
-function UserHeader() {
+function UserHeader({profile}: Props) {
   return (
     <Segment>
         <Grid.Column width={12}>
             <Item.Group>
                 <Item> 
-                    <Item.Image pic size='small' circular src={'/user.png'}/>
+                    <Item.Image pic size='small' circular src={profile.photoUrl || '/user.png'}/>
                     <Item.Content verticalAlign='middle'>
-                        <Header as='h1'content='Name'/>
+                        <Header as='h1'content={`${profile.firstName} ${profile.lastName}`}/>
                     </Item.Content>
                 </Item>
             </Item.Group>
