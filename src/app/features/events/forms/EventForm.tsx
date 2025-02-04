@@ -34,6 +34,7 @@ function EventForm({ setShowForm}: Props) {
 
   let { id } = useParams<{ id: string }>();
   const event = useAppSelector(state => state.events.events.find(e => e.id === id))
+  // Checking if the user is authenticated
   const { currentUser } = useAppSelector(state => state.auth)
   console.log('Current user:', currentUser);
 
@@ -54,6 +55,7 @@ function EventForm({ setShowForm}: Props) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
+ // Listening to the changes in the Cancellation status of the Event 
   useEffect(() => {
     
     if (event && event.id) {
@@ -61,14 +63,16 @@ function EventForm({ setShowForm}: Props) {
       const unsubscribe = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
           const updatedEvent = docSnap.data() as AppEvent;
-          setEventForm(prev => ({...prev, isCancelled: updatedEvent.isCancelled}));
+          setEventForm(prev => ({
+            ...prev,
+            isCancelled: updatedEvent.isCancelled}));
     }
   });
   return () => unsubscribe();
 }
-}, [event]);
+}, [event?.id]);
 
-  
+  // Handling Grade Change
   const handleGradeChange = (e: React.SyntheticEvent<HTMLElement>, { value }: any) => {
     setSelectedGrade(value);
     setEventForm({ ...eventForm, grade: value });
@@ -85,6 +89,7 @@ function EventForm({ setShowForm}: Props) {
     }
   };
 
+  // Updating date format to TimeStamp
   async function updateTheEvent(data: AppEvent) {
     if (!event) return;
     const docRef = doc(db, 'events', event.id);
@@ -103,6 +108,7 @@ function EventForm({ setShowForm}: Props) {
   //   return newEventRef;
   // }
 
+  // Creating Event and adding Host and Attendees
   async function createTheEvent(data: AppEvent) {
     if (!currentUser) {
       console.log('User not authenticated');
@@ -159,20 +165,27 @@ function EventForm({ setShowForm}: Props) {
     }
   }
 
-
+// Cancelling Event
 async function handleCancelEvent(event: AppEvent) {
   if (!event.id) {
     console.log('Event id is not found');
     return;
   } 
-  const docRef = doc(db, 'events', event.id);
-  await updateDoc(docRef, {
-     isCancelled: !event.isCancelled,
+  try {
+      const docRef = doc(db, 'events', event.id);
+      const newStatus = !eventForm.isCancelled;
+      await updateDoc(docRef, {
+          isCancelled: newStatus,
 }); 
-setEventForm(prev => ({...prev, isCancelled: !prev.isCancelled}));
-console.log('Event cancelled:', !event.isCancelled);
-toast.success(`Event has been ${event.isCancelled ? 'reinstalled': 'cancelled' }`);
+setEventForm(prev => ({...prev, isCancelled: newStatus}));
+console.log('Event cancelled:', newStatus);
+toast.success(`Event has been ${newStatus ? 'reinstalled': 'cancelled' }`);
 
+}
+catch (error){
+  console.log('Error cancelling the event:', error);
+  toast.error('Error updating event status');
+}
 }
 
   return (
@@ -239,9 +252,9 @@ toast.success(`Event has been ${event.isCancelled ? 'reinstalled': 'cancelled' }
           <Button
           type='button'
           floated='left'
-          color={event.isCancelled ? 'green': 'orange'}
-          onClick = {() => handleCancelEvent(event)}
-          content={event.isCancelled ? 'Reactivate Event': 'Cancel Event'}
+          color={eventForm.isCancelled ? 'green': 'orange'}
+          onClick = {() => handleCancelEvent(eventForm)}
+          content={eventForm.isCancelled ? 'Reactivate Event': 'Cancel Event'}
            />
         )}
         <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
