@@ -20,3 +20,9 @@ body {
 .master h1.u1.header {
     font-size: 4em;
 }
+
+.react-calendar {
+    width: 100% !important;
+    border: none !important;
+    box-shadow: 0 ipx 2px 0 rgba(34, 36, 38, .15) !important;
+}
