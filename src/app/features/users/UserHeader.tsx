@@ -14,7 +14,9 @@ function UserHeader({profile}: Props) {
                 <Item> 
                     <Item.Image pic size='small' circular src={profile.photoUrl || '/user.png'}/>
                     <Item.Content verticalAlign='middle'>
-                        <Header as='h1'content={`${profile.firstName} ${profile.lastName}`}/>
+                        <Header as='h1'content={`${profile.firstName} ${profile.lastName}`}
+                        //   style={{ textAlign: 'center', margin: '10px 10 px 20px 20px' }}
+                          />
                     </Item.Content>
                 </Item>
             </Item.Group>

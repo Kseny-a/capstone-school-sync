@@ -7,3 +7,9 @@ export type Profile = {
     description: string,
 
 }
+
+export interface UserProfile {
+    firstName: string;
+    lastName: string;
+    photoURL: string;
+  }

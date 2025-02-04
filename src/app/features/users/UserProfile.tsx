@@ -1,4 +1,4 @@
-import { Grid } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 import UserHeader from './UserHeader';
 import UserContent from './UserContent';
 import { useParams } from 'react-router-dom';
@@ -23,6 +23,7 @@ function UserProfile() {
       if (!uid) return;
       console.log('loading profile:', uid);
         dispatch(setLoading());
+      if (status === 'loading') return <Loader content='Loading profile...'/>;
         try {
     //     const foundProfile = data.find((u) => u.uid === uid )
     //     if (foundProfile) {
@@ -59,6 +60,8 @@ function UserProfile() {
     }
  
       loadProfile();
+      // if (status === 'loading') return <Loader content='Loading profile...'/>;
+
   }, [uid, dispatch]);
 
   console.log('Profile:', profile);

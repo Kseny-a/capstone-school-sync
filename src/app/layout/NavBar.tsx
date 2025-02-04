@@ -17,14 +17,14 @@ const {authenticated} =  useAppSelector(state => state.auth);
   // const[auth, setAuth] = useState(false);
 
   // const navigate = useNavigate();
-  async function seedDatabase() {
-    for (const event of sampleData) {
-      const { id, ...eventData } = event;
-      await setDoc(doc(db, 'events', id), {
-        ...eventData
-      });
-    }
-  }
+  // async function seedDatabase() {
+  //   for (const event of sampleData) {
+  //     const { id, ...eventData } = event;
+  //     await setDoc(doc(db, 'events', id), {
+  //       ...eventData
+  //     });
+  //   }
+  // }
 
   return (
     <Menu inverted={true} fixed='top'>
@@ -43,7 +43,7 @@ const {authenticated} =  useAppSelector(state => state.auth);
             inverted={true}
             content='Create event' />
         </MenuItem>
-        { import.meta.env.DEV && (
+        {/* { import.meta.env.DEV && (
           <MenuItem>
           <Button 
           inverted={true}
@@ -52,7 +52,7 @@ const {authenticated} =  useAppSelector(state => state.auth);
           onClick={seedDatabase}
           > Seed DB </Button>
         </MenuItem>
-        )} 
+        )}  */}
         {authenticated ? <SignedIn/> : <SignOutButtons/> }
       </Container>
       {/* {authenticated ? <SignedIn/> : <SignOutButtons/> } */}

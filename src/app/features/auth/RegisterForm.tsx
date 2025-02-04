@@ -44,7 +44,7 @@ const gradeOptions = [
         const userCreds = await createUserWithEmailAndPassword(auth, data.email, data.password);
         console.log('User created:', userCreds.user.uid);
         await updateProfile(userCreds.user, 
-          { displayName: `${data.firstName} ${data.lastName}`
+          { displayName: data.firstName
           });
         await setDoc(doc(db, 'users', userCreds.user.uid),{
           uid: userCreds.user.uid,
