@@ -1,7 +1,7 @@
 import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AppEvent } from '../../../types/event'
-import { addDoc, doc, Timestamp, updateDoc, arrayUnion } from 'firebase/firestore'
+import { addDoc, doc, Timestamp, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 import { setDoc, collection } from 'firebase/firestore'
 import DatePicker from 'react-datepicker';
@@ -13,6 +13,8 @@ import { setEvents } from '../eventSlice';
 import { getDoc } from 'firebase/firestore'; 
 import { UserProfile } from '../../../types/profile'
 import { getUserProfile } from '../../../utilities/firebaseUtil';
+import { add } from 'date-fns';
+import { toast } from 'react-toastify';
 
 
 const gradeOptions = [
@@ -27,24 +29,6 @@ const gradeOptions = [
 type Props = {
   setShowForm: (value: boolean) => void;
 };
-
-// export async function getUserProfile(uid: string): Promise<UserProfile | null> {
-//   if (!uid) return null;
-//   try {
-//     const docRef = doc(db, 'users', uid);
-//     const docSnap = await getDoc(docRef);
-//     if (docSnap.exists()) {
-//       return docSnap.data() as unknown as UserProfile;
-//       console.log('Document data:', docSnap.data());
-//     } else {
-//       console.log("No userprofile found in FB");
-//       return null;
-//     }
-//   } catch (error) {
-//     console.log('Error getting user profile:', error);
-//     return null;
-//   }
-// }
 
 function EventForm({ setShowForm}: Props) {
 
@@ -62,12 +46,27 @@ function EventForm({ setShowForm}: Props) {
     venue: '',
     address: '',
     grade: '',
+    isCancelled: false,
   }
 
   const [eventForm, setEventForm] = useState<AppEvent>(initialValues);
   const [selectedGrade, setSelectedGrade] = useState<string>(eventForm.grade || '')
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    
+    if (event && event.id) {
+      const docRef = doc(db, 'events', event.id);
+      const unsubscribe = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const updatedEvent = docSnap.data() as AppEvent;
+          setEventForm(prev => ({...prev, isCancelled: updatedEvent.isCancelled}));
+    }
+  });
+  return () => unsubscribe();
+}
+}, [event]);
 
   
   const handleGradeChange = (e: React.SyntheticEvent<HTMLElement>, { value }: any) => {
@@ -160,6 +159,22 @@ function EventForm({ setShowForm}: Props) {
     }
   }
 
+
+async function handleCancelEvent(event: AppEvent) {
+  if (!event.id) {
+    console.log('Event id is not found');
+    return;
+  } 
+  const docRef = doc(db, 'events', event.id);
+  await updateDoc(docRef, {
+     isCancelled: !event.isCancelled,
+}); 
+setEventForm(prev => ({...prev, isCancelled: !prev.isCancelled}));
+console.log('Event cancelled:', !event.isCancelled);
+toast.success(`Event has been ${event.isCancelled ? 'reinstalled': 'cancelled' }`);
+
+}
+
   return (
     <Segment clearing>
       <Header content={event ? 'Update Event' : 'Create Event'} />
@@ -220,8 +235,17 @@ function EventForm({ setShowForm}: Props) {
             onChange={handleGradeChange}
             value={selectedGrade} />
         </Form.Field>
+        {event && (
+          <Button
+          type='button'
+          floated='left'
+          color={event.isCancelled ? 'green': 'orange'}
+          onClick = {() => handleCancelEvent(event)}
+          content={event.isCancelled ? 'Reactivate Event': 'Cancel Event'}
+           />
+        )}
         <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
-        <Button as={Link} to='/events' type='button' floated='right' inverted color='blue' content='Cancel'></Button>
+        <Button as={Link} to='/events' type='button' floated='right' inverted color='blue' content='Back'></Button>
       </Form>
     </Segment>
   );

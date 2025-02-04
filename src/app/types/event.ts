@@ -14,6 +14,7 @@ export type AppEvent = {
     attendees: Attendee[]
     attendeesIds: string[]
     grade: string
+    isCancelled: boolean
 }
 
 export type Attendee = {
