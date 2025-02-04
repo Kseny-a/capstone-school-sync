@@ -9,8 +9,10 @@ export type AppEvent = {
     venue: string
     address: string
     hostedBy: string
-    hostPhotoURL: string
+    hostUid: string
+    hostPhotoURL: string | null
     attendees: Attendee[]
+    attendeesIds: string[]
     grade: string
 }
 

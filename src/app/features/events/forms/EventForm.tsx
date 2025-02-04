@@ -1,15 +1,18 @@
 import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
 import { useState } from 'react'
 import { AppEvent } from '../../../types/event'
-import { addDoc, doc, Timestamp, updateDoc } from 'firebase/firestore'
+import { addDoc, doc, Timestamp, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
 import { setDoc, collection } from 'firebase/firestore'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/package.json';
-// import 'react-datepicker/dist/react-datepicker.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { setEvents } from '../eventSlice';
+import { getDoc } from 'firebase/firestore'; 
+import { UserProfile } from '../../../types/profile'
+import { getUserProfile } from '../../../utilities/firebaseUtil';
 
 
 const gradeOptions = [
@@ -21,27 +24,47 @@ const gradeOptions = [
   { key: '5', text: '5th grade', value: '5th' },
 ];
 
-function EventForm() {
+type Props = {
+  setShowForm: (value: boolean) => void;
+};
+
+// export async function getUserProfile(uid: string): Promise<UserProfile | null> {
+//   if (!uid) return null;
+//   try {
+//     const docRef = doc(db, 'users', uid);
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//       return docSnap.data() as unknown as UserProfile;
+//       console.log('Document data:', docSnap.data());
+//     } else {
+//       console.log("No userprofile found in FB");
+//       return null;
+//     }
+//   } catch (error) {
+//     console.log('Error getting user profile:', error);
+//     return null;
+//   }
+// }
+
+function EventForm({ setShowForm}: Props) {
 
   let { id } = useParams<{ id: string }>();
   const event = useAppSelector(state => state.events.events.find(e => e.id === id))
+  const { currentUser } = useAppSelector(state => state.auth)
+  console.log('Current user:', currentUser);
 
   // initial form state
   const initialValues = event ?? {
     title: '',
-    date: '',
+    date: null,
     time: '',
     description: '',
     venue: '',
     address: '',
-    hostedBy: 'Alice',
-    hostPhotoURL: '',
-    attendees: [],
     grade: '',
-
   }
 
-  const [eventForm, setEventForm] = useState<AppEvent>(initialValues)
+  const [eventForm, setEventForm] = useState<AppEvent>(initialValues);
   const [selectedGrade, setSelectedGrade] = useState<string>(eventForm.grade || '')
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -52,10 +75,10 @@ function EventForm() {
     setEventForm({ ...eventForm, grade: value });
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setEventForm({ ...eventForm, [name]: value })
-  }
+    setEventForm({ ...eventForm, [name]: value });
+  };
 
   const handleDateChange = (date: Date | null) => {
     if (date) {
@@ -82,17 +105,37 @@ function EventForm() {
   // }
 
   async function createTheEvent(data: AppEvent) {
-    const newEventRef = doc(collection(db, 'events'));
-    const newEventId = newEventRef.id
-    const newEventData = {
+    if (!currentUser) {
+      console.log('User not authenticated');
+      return;
+    } try {
+      const UserProfile = await getUserProfile(currentUser.uid);
+      console.log('User profile:', UserProfile);
+      const newEventRef = await addDoc(collection(db, 'events'), {
       ...data,
-      id: newEventId,
+      hostUid: currentUser.uid,
+      hostPhotoUrl: UserProfile?.photoURL || '/user.png',
+      hostedBy: UserProfile?.firstName || currentUser.firstName || 'Unknown user',
+      attendees: arrayUnion({
+        id: currentUser.uid,
+        name: UserProfile?.firstName || currentUser.firstName,
+        photoUrl: UserProfile?.photoURL || '/user.png',
+      }),
+      attendeesIds: arrayUnion(currentUser.uid),
       date: Timestamp.fromDate(new Date(data.date as string)),
-    }
-    await setDoc(newEventRef, newEventData)
-    dispatch(setEvents(newEventData))
-    return newEventId;
+    });
+     
+    await updateDoc(newEventRef, {
+      id: newEventRef.id,
+    });
+    // await setDoc(newEventRef, newEventData)
+    // dispatch(setEvents(newEventData))
+    // return newEventId;
+    return newEventRef;
+  } catch (error){
+    console.log('Error creating the event:', error);
   }
+}
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -101,12 +144,19 @@ function EventForm() {
         await updateTheEvent(eventForm);
         navigate(`/events/${eventForm.id}`);
       } else {
-        const newEventId = await createTheEvent(eventForm)
+        const newEventRef = await createTheEvent(eventForm);
+        if (newEventRef?.id) {
+          const newEvent = { ...eventForm, id: newEventRef.id };
+
+          dispatch(setEvents(newEvent));
+          navigate(`/events/${newEventRef.id}`);
+        }
         // setEventForm(prev => ({...prev, id: newEventId}))
-        navigate(`/events/${newEventId}`);
+  
       }
+      setShowForm(false);
     } catch (error) {
-      console.log(error)
+      console.log('Error submitting the form', error)
     }
   }
 
@@ -174,7 +224,7 @@ function EventForm() {
         <Button as={Link} to='/events' type='button' floated='right' inverted color='blue' content='Cancel'></Button>
       </Form>
     </Segment>
-  )
+  );
 }
 
 export default EventForm;
