@@ -39,6 +39,9 @@ function EventListItem({ event }: Props) {
                 <Item.Description>
                   Hosted by {event.hostedBy}
                 </Item.Description>
+                <Item.Description>
+                  Grade: {event.grade}
+                </Item.Description>
               </ItemContent>
             </Item>
           </ItemGroup>
