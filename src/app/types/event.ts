@@ -15,6 +15,8 @@ export type AppEvent = {
     attendeesIds: string[]
     grade: string
     isCancelled: boolean
+    isHost?: boolean
+    isGoing?: boolean
 }
 
 export type Attendee = {

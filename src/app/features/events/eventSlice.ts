@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppEvent } from "../../types/event"
 import { Timestamp } from "firebase/firestore"
+import { auth } from "../../api/config/firebase"
 
 type State = {
     events: AppEvent[]
@@ -27,7 +28,9 @@ export const eventSlice = createSlice({
                         ...e, 
                         date: e.date instanceof Timestamp 
                             ? e.date.toDate().toDateString()  //  Convert to Firestore Timestamp
-                            : new Date(e.date).toDateString() //  Convert normal date
+                            : new Date(e.date).toDateString(), //  Convert normal date
+                            isHost: auth.currentUser?.uid === e.hostUid,
+                            isGoing: e.attendeesIds.includes(auth.currentUser?.uid)
                         }; 
                     });return { payload: mapped };
             },
