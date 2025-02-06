@@ -119,12 +119,12 @@ function EventForm({ setShowForm}: Props) {
       const newEventRef = await addDoc(collection(db, 'events'), {
       ...data,
       hostUid: currentUser.uid,
-      hostPhotoUrl: UserProfile?.photoURL || '/user.png',
+      hostPhotoUrl: UserProfile?.photoURL || '/images/user.png',
       hostedBy: UserProfile?.firstName || currentUser.firstName || 'Unknown user',
       attendees: arrayUnion({
         id: currentUser.uid,
         name: UserProfile?.firstName || currentUser.firstName,
-        photoUrl: UserProfile?.photoURL || '/user.png',
+        photoUrl: UserProfile?.photoURL || '/images/user.png',
       }),
       attendeesIds: arrayUnion(currentUser.uid),
       date: Timestamp.fromDate(new Date(data.date as string)),
@@ -179,7 +179,7 @@ async function handleCancelEvent(event: AppEvent) {
 }); 
 setEventForm(prev => ({...prev, isCancelled: newStatus}));
 console.log('Event cancelled:', newStatus);
-toast.success(`Event has been ${newStatus ? 'reinstalled': 'cancelled' }`);
+toast.success(`Event has been ${!newStatus ? 'reinstalled': 'cancelled' }`);
 
 }
 catch (error){
@@ -255,6 +255,7 @@ catch (error){
           color={eventForm.isCancelled ? 'green': 'orange'}
           onClick = {() => handleCancelEvent(eventForm)}
           content={eventForm.isCancelled ? 'Reactivate Event': 'Cancel Event'}
+          // as={Link} to={`/events/${eventForm.id}`}
            />
         )}
         <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
