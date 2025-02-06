@@ -58,7 +58,7 @@ if (event.isGoing) {
     const newAttendee = {
       id: currentUser.uid,
       name: userProfile.firstName,
-      photoUrl: userProfile.photoURL || '/user.png',
+      photoUrl: userProfile.photoURL || '/images/user.png',
     };
 
     if (!newAttendee.id || !newAttendee.name) {

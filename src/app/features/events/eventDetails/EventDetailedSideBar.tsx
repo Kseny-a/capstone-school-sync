@@ -1,6 +1,12 @@
-import { Segment, Item } from "semantic-ui-react";
+import { Segment, Item, Label, LabelDetail, ItemExtra } from "semantic-ui-react";
+import { AppEvent } from "../../../types/event";
+import { Link } from "react-router-dom";
 
-export default function EventDetailedSideBar() {
+type Props = {
+  event: AppEvent
+}
+
+export default function EventDetailedSideBar({event}: Props) {
   return (
     <>
       <Segment
@@ -11,26 +17,40 @@ export default function EventDetailedSideBar() {
         inverted
         color="teal"
       >
-      2 People Going
+      {event.attendees.length} People Going
       </Segment>
       <Segment attached>
         <Item.Group relaxed divided>
-          <Item style={{ position: 'relative' }}>
-            <Item.Image size="tiny" src='/images/user.png' />
-            <Item.Content verticalAlign="middle">
-              <Item.Header as="h3">
-                <span>Person 1</span>
-              </Item.Header>
-            </Item.Content>
-          </Item>
-          <Item style={{ position: 'relative' }}>
-            <Item.Image size="tiny" src='/images/user.png' />
-            <Item.Content verticalAlign="middle">
-              <Item.Header as="h3">
-                <span>Person 2</span>
-              </Item.Header>
-            </Item.Content>
-          </Item>
+          {event.attendees.map(attendee => (
+              <Item style={{ position: 'relative' }} key={attendee.id}>
+           {/* <div>
+                {event.hostUid === attendee.id && (
+                  // <Label  style={{postition:'absolute'}} color='olive' ribbon='right'>
+                  //   Host
+                  // </Label>
+
+                  <Label as='a' color='teal' tag position='right'>
+                    Host
+                  </Label>
+        
+                )}
+                </div> */}
+                <Item.Image size="tiny" src={attendee.photoURL || '/images/user.png'} />
+                  <Item.Content verticalAlign="middle">
+                    <Item.Header as={Link} to={`/user-profile/${attendee.id}`}>
+                     <span>{attendee.name}</span>
+
+                   </Item.Header>
+                   <div>
+                {event.hostUid === attendee.id && (
+                  <Label  style={{postition:'absolute'}} color='olive' ribbon='right'>
+                    Host
+                  </Label>
+                )}
+                </div>
+                  </Item.Content>
+                </Item>
+          ))}
         </Item.Group>
       </Segment>
     </>

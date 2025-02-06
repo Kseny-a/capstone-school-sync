@@ -39,7 +39,7 @@ function EventDetailedPage() {
         <EventDetailedHeader event={event}/>
       </Grid.Column>
       <Grid.Column width = {6}>
-        <EventDetailedSideBar/>
+        <EventDetailedSideBar event={event}/>
       </Grid.Column>
     </Grid>
   )
