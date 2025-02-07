@@ -23,52 +23,50 @@ const gradeOptions = [
 const EventFilter = ({ setQuery }: Props) => {
   const [filter, setFilter] = useState("all");
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
-  const startDate = useRef(new Date())
+  const [startDate, setStartDate] = useState<Date | null>(new Date())
   const {currentUser} = useAppSelector(state => state.auth)
 
-  const updateQuery = useCallback(() => {
-    let query: QueryOptions[] = [];
-
-    if (filter === "grade" && selectedGrade) {
-      query.push({ attribute: "grade", operator: "==", value: selectedGrade });
-    }
-
-    setQuery(query);
-  }, [filter, selectedGrade, setQuery]);
-
-  useEffect(() => {
-    updateQuery();
-  }, [selectedGrade, filter, updateQuery]);
-
+  
   const handleSetFilter = (filter: string) => {
-    if (!currentUser?.uid) return 
-    let query: QueryOptions[]
-
-    console.log(currentUser.uid)
+    let query: QueryOptions[] = [];
+    
     switch (filter) {
-      case 'isGoing':
-        query = [
-          {attribute: 'attendeeIds', operator: 'array-contains', value: currentUser.uid},
-          {attribute: 'date', operator: '>=', value: startDate.current}
-        ] 
+      case "isGoing": {
+        query = [{ attribute: "attendeesIds", operator: "array-contains", value: currentUser?.uid}]
+      }
+      break
+
+      case "isHost": {
+        query = [{attribute: "hostUid", operator: "==", value: currentUser?.uid}]
+      }
+      break
+
+      case "grade": {
+        if (selectedGrade) {
+          query.push({ attribute: "grade", operator: "==", value: selectedGrade })
+        }
         break
-
-        case 'isHost':
-          query = [
-            {attribute: 'hostUid', operator: '==', value: currentUser.uid},
-            {attribute: 'date', operator: '>=', value: startDate.current}
-          ]
-          break
-
-        default: 
-          query = [
-            {attribute: 'date', operator: '>=', value: startDate.current}
-          ]
-          break
+      }
+      
+      default:
+        query = [{attribute: "date", operator: ">=", value: startDate}]
+        break
     }
     setFilter(filter)
-    setQuery(query)
+    setQuery(query);
+  }
+
+  const handleGradeChange = (_: any, { value }: any) => {
+    setSelectedGrade(value)
+    handleSetFilter("grade")
+  }
+
+  // Applies grade filter when changed
+  useEffect(() => {
+    if (selectedGrade) {
+      handleSetFilter("grade");
     }
+  }, [selectedGrade]);
 
   return (
     <>
@@ -102,10 +100,7 @@ const EventFilter = ({ setQuery }: Props) => {
             selection
             options={gradeOptions}
             value={selectedGrade || ""}
-            onChange={({}, { value }) => {
-              setSelectedGrade(value as string) //update selected grade
-              setFilter("grade") // set filter to grade
-            }}
+            onChange={handleGradeChange} // set filter to grade
           />
         
         </Menu>
@@ -113,10 +108,10 @@ const EventFilter = ({ setQuery }: Props) => {
       <Header icon="calendar" attached color="teal" content="Select date" />
       <Calendar 
         onChange={date => {
-          startDate.current = date as Date
+          setStartDate(date as Date)
           handleSetFilter(filter)
         }}
-        value={startDate.current}
+        value={startDate}
       />
     </>
   );
