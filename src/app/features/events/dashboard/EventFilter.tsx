@@ -23,7 +23,7 @@ const gradeOptions = [
 const EventFilter = ({ setQuery }: Props) => {
   const [filter, setFilter] = useState("all");
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
-  const [startDate, setStartDate] = useState<Date | null>(new Date())
+  const startDate = useRef(new Date())
   const {currentUser} = useAppSelector(state => state.auth)
 
   
@@ -32,24 +32,38 @@ const EventFilter = ({ setQuery }: Props) => {
     
     switch (filter) {
       case "isGoing": {
-        query = [{ attribute: "attendeesIds", operator: "array-contains", value: currentUser?.uid}]
+        query = [
+          { attribute: "attendeesIds", operator: "array-contains", value: currentUser?.uid},
+          {attribute: "date", operator: ">=", value: startDate.current}
+        ]
       }
       break
 
       case "isHost": {
-        query = [{attribute: "hostUid", operator: "==", value: currentUser?.uid}]
+        query = [
+          {attribute: "hostUid", operator: "==", value: currentUser?.uid}, 
+          {attribute: "date", operator: ">=", value: startDate.current}
+        ]
       }
       break
 
       case "grade": {
         if (selectedGrade) {
-          query.push({ attribute: "grade", operator: "==", value: selectedGrade })
+          query.push(
+            {attribute: "grade", operator: "==", value: selectedGrade}, 
+            {attribute: "date", operator: ">=", value: startDate.current}
+          )
         }
         break
       }
-      
+      case "all":
+        setSelectedGrade(null)
+        startDate.current = new Date()
+        query = []
+        break
+
       default:
-        query = [{attribute: "date", operator: ">=", value: startDate}]
+        query.push({attribute: "date", operator: ">=", value: startDate.current})
         break
     }
     setFilter(filter)
@@ -67,6 +81,12 @@ const EventFilter = ({ setQuery }: Props) => {
       handleSetFilter("grade");
     }
   }, [selectedGrade]);
+
+  useEffect(() => {
+    if (startDate.current) {
+      handleSetFilter("date");
+    }
+  }, [startDate.current]);
 
   return (
     <>
@@ -108,10 +128,10 @@ const EventFilter = ({ setQuery }: Props) => {
       <Header icon="calendar" attached color="teal" content="Select date" />
       <Calendar 
         onChange={date => {
-          setStartDate(date as Date)
+          startDate.current = date as Date
           handleSetFilter(filter)
         }}
-        value={startDate}
+        value={startDate.current}
       />
     </>
   );
