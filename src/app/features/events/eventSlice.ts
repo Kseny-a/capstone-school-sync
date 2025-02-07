@@ -5,10 +5,12 @@ import { auth } from "../../api/config/firebase"
 
 type State = {
     events: AppEvent[]
+    attendeesIds: string[]
 }
 
 const initialState: State = {
-    events: []
+    events: [],
+    attendeesIds: [],
 }
 
 export const eventSlice = createSlice({
@@ -30,7 +32,7 @@ export const eventSlice = createSlice({
                             ? e.date.toDate().toDateString()  //  Convert to Firestore Timestamp
                             : new Date(e.date).toDateString(), //  Convert normal date
                             isHost: auth.currentUser?.uid === e.hostUid,
-                            isGoing: e.attendeesIds.includes(auth.currentUser?.uid)
+                            isGoing: e.attendeesIds.includes(auth.currentUser?.uid),
                         }; 
                     });return { payload: mapped };
             },

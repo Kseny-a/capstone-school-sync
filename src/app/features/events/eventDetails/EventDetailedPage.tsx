@@ -14,7 +14,7 @@ function EventDetailedPage() {
   const event = useAppSelector(state => state.events.events.find(e => e.id === id))
   const dispatch = useAppDispatch()
 
-  if (!event) return <h2>event not found</h2>
+  // if (!event) return <h2>event not found</h2>
 
   useEffect(() => {
     if (!id) return

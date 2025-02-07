@@ -70,6 +70,7 @@ if (event.isGoing) {
         attendees: arrayUnion(newAttendee),
         attendeesIds: arrayUnion(currentUser.uid)
     });
+    toast.success('You added attendance to this event');
   }
 }
   return (
