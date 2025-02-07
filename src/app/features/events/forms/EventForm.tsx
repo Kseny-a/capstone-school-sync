@@ -17,6 +17,7 @@ import { add } from 'date-fns';
 import { toast } from 'react-toastify';
 
 
+
 const gradeOptions = [
   { key: 'kg', text: 'Kindergarten', value: 'kindergarten' },
   { key: '1', text: '1st grade', value: '1st' },
@@ -122,7 +123,7 @@ function EventForm({ setShowForm}: Props) {
       hostPhotoUrl: UserProfile?.photoURL || '/images/user.png',
       hostedBy: UserProfile?.firstName || currentUser.firstName || 'Unknown user',
       attendees: arrayUnion({
-        id: currentUser.uid,
+        id: currentUser.uid || [],
         name: UserProfile?.firstName || currentUser.firstName,
         photoUrl: UserProfile?.photoURL || '/images/user.png',
       }),
@@ -139,29 +140,37 @@ function EventForm({ setShowForm}: Props) {
     return newEventRef;
   } catch (error){
     console.log('Error creating the event:', error);
+    toast.error('Error creating event');
   }
 }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
+      let newEventRef;
       if (eventForm.id) {
         await updateTheEvent(eventForm);
         navigate(`/events/${eventForm.id}`);
+        toast.success('Event updated successfully');
       } else {
-        const newEventRef = await createTheEvent(eventForm);
+        newEventRef = await createTheEvent(eventForm);
         if (newEventRef?.id) {
           const newEvent = { ...eventForm, id: newEventRef.id };
 
           dispatch(setEvents(newEvent));
           navigate(`/events/${newEventRef.id}`);
+          toast.success('event created successfully');
         }
         // setEventForm(prev => ({...prev, id: newEventId}))
   
       }
-      setShowForm(false);
+      if (newEventRef || eventForm.id) {
+        setShowForm(false);
+      }
+    
     } catch (error) {
       console.log('Error submitting the form', error)
+      // toast.error('error submitting the form, please try again');
     }
   }
 
@@ -198,7 +207,8 @@ catch (error){
             placeholder='Event title'
             value={eventForm.title || ''}
             name='title'
-            onChange={handleInputChange} />
+            onChange={handleInputChange}
+            required />
         </Form.Field>
         <Form.Field>
           <DatePicker
@@ -206,6 +216,7 @@ catch (error){
             onChange={(date) => handleDateChange(date)}
             dateFormat='MM/dd/yyyy'
             placeholderText='Select Date'
+            required
           />
         </Form.Field>
         <Form.Field>
@@ -214,7 +225,8 @@ catch (error){
             placeholder='Time'
             value={eventForm.time || ''} 
             name='time'
-            onChange={e => handleInputChange(e)} />
+            onChange={e => handleInputChange(e)}
+            required />
         </Form.Field>
         <Form.Field>
           <input
@@ -222,7 +234,8 @@ catch (error){
             placeholder='Description'
             value={eventForm.description || ''}
             name='description'
-            onChange={e => handleInputChange(e)} />
+            onChange={e => handleInputChange(e)}
+            required />
         </Form.Field>
         <Form.Field>
           <input
@@ -230,7 +243,8 @@ catch (error){
             placeholder='Venue'
             value={eventForm.venue || ''}
             name='venue'
-            onChange={e => handleInputChange(e)} />
+            onChange={e => handleInputChange(e)}
+            required />
         </Form.Field>
         <Form.Field>
           <input
@@ -238,7 +252,8 @@ catch (error){
             placeholder='Address'
             value={eventForm.address || ''}
             name='address'
-            onChange={e => handleInputChange(e)} />
+            onChange={e => handleInputChange(e)}
+            required />
         </Form.Field>
         <Form.Field>
           <Dropdown placeholder='Select Grade'

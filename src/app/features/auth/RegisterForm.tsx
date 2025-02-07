@@ -1,5 +1,5 @@
 
-import { Form, Button, Dropdown, Message } from 'semantic-ui-react'; 
+import { Form, Button, Dropdown, Message, Label } from 'semantic-ui-react'; 
 import React, { useEffect } from 'react';
 import { doc } from 'firebase/firestore'
 import { db } from './../../api/config/firebase'
@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import type { FieldValues } from 'react-hook-form';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../api/config/firebase';
+import { setError } from '../users/UserSlice';
 
 
 
@@ -24,7 +25,7 @@ const gradeOptions = [
   ];
 
   function RegisterForm() {
-    const {register, handleSubmit, setValue, watch, formState: {isSubmitting, isValid, isDirty, errors }} = useForm({
+    const {register, handleSubmit, setValue, watch, setError, formState: {isSubmitting, isValid, isDirty, errors }} = useForm({
       mode: 'onTouched',
     });
     const dispatch = useAppDispatch();
@@ -57,7 +58,11 @@ const gradeOptions = [
         });
         dispatch(closeModal());}
       catch (error) {
-        console.log(error);
+        console.log('Registration error:', error);
+        setError('serverError', {
+          type: 'manual', 
+          message: error.message
+        });
       }
     }
 
@@ -140,10 +145,12 @@ const gradeOptions = [
       <label>Password</label>
       <input 
             placeholder='Password'
-            {...register('password', {required: true})}
-            type='password'
-            defaultValue=''
-            error={errors.password && 'Password is required'} />
+            {...register('password', { 
+              required: 'Password is required', 
+              minLength: { value: 6, message: 'Password must be at least 6 characters long' }
+            })}
+            />
+            {errors.password && <Message error content={errors.password.message} />}
     </Form.Field>
     <Form.Field>
       <label>Child's name</label>
@@ -164,6 +171,14 @@ const gradeOptions = [
                 />
                 {errors.grade && <Message error content={errors.grade.message} />}
     </Form.Field>
+
+    {errors.serverError && (
+        <Label
+          basic
+          color='red'
+          style={{ display: 'block', marginBottom: 10 }}
+          content={errors.serverError.message}
+        />)}
 
     <Button type='submit'
             disabled={!isValid || isSubmitting || !isDirty || Object.keys(errors).length > 0 }
