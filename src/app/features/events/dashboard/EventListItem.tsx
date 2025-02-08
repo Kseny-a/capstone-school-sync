@@ -32,7 +32,7 @@ function EventListItem({ event }: Props) {
         <Segment>
           <ItemGroup>
             <Item>
-              <Item.Image size='tiny' circular src={event.hostPhotoURL || '/images/user.png'} />
+              <Item.Image size='tiny' circular src={'/user.png'} />
               <ItemContent>
                 <ItemHeader>
                   {event.title}

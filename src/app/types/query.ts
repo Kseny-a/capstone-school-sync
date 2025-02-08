@@ -9,7 +9,7 @@ export type CollectionOptions = {
 export type QueryOptions = {
     attribute: string
     operator: WhereFilterOp
-    value: string | number |boolean | Date |any[]
+    value: any
 }
 
 export type SortOptions = {

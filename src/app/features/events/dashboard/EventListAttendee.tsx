@@ -9,7 +9,7 @@ type Props = {
 function EventListAttendee({attendee}: Props) {
   return (
     <List.Item>
-      <Image size='mini' circular src={attendee.photoURL || '/images/user.png'}/>
+      <Image size='mini' circular src={'/user.png'}/>
       <Item.Content verticalAlign="middle">
           <Item.Header as={Link} to={`/user-profile/${attendee.id}`}>
               {attendee.name}
