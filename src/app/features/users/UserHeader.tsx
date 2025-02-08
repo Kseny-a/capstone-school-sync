@@ -12,7 +12,7 @@ function UserHeader({profile}: Props) {
         <Grid.Column width={12}>
             <Item.Group>
                 <Item> 
-                    <Item.Image pic size='small' circular src={profile.photoUrl || '/user.png'}/>
+                    <Item.Image size='small' circular src={profile.photoUrl || '/images/user.png'}/>
                     <Item.Content verticalAlign='middle'>
                         <Header as='h1'content={`${profile.firstName} ${profile.lastName}`}
                         //   style={{ textAlign: 'center', margin: '10px 10 px 20px 20px' }}

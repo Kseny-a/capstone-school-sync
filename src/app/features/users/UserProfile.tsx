@@ -78,7 +78,7 @@ function UserProfile() {
   <Grid>
     <Grid.Column width={16}>
         <UserHeader profile={profile}/>
-        <UserContent />
+        <UserContent profile={profile} />
     </Grid.Column >
   </Grid>
   )

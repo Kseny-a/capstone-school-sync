@@ -4,6 +4,7 @@ export type Profile = {
     firstName:string,
     lastName: string,
     childName: string,
+    grade: string,
     description: string,
 
 }
