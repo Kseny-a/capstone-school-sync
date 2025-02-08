@@ -14,7 +14,7 @@ export default function UserAbout({profile}: Props) {
     <TabPane>
         <Grid>
             <Grid.Column width={16}>
-                <Header floated='left' icon='user' content={`About ${profile.firstName}`} style={{ marginBottom: 20 }}/>
+                <Header floated='left' icon='user' content={`About ${profile.firstName}`} style={{ marginBottom: 30 }}/>
                 <Button
                 floated='right'
                 basic
@@ -25,9 +25,9 @@ export default function UserAbout({profile}: Props) {
             <Grid.Column width={16}>
                 {editMode ? <UserForm profile={profile} setEditMode={setEditMode}/>:(
                    <div style={{ marginBottom: 10 }}>
-                        <div><strong>Child's Name: {profile.childName}</strong></div>
+                        <div style={{ marginBottom: 30 }}>{profile.description}</div>
+                        <div style={{ marginBottom: 7 }}><strong>Child's Name: {profile.childName}</strong></div>
                         <strong>Child's Grade: {profile.grade}</strong>
-                        <div>{profile.description}</div>
                         <div style={{ marginTop: 10 }}>
 
                         </div>
