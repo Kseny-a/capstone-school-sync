@@ -30,7 +30,7 @@ export default function EventDetailedSideBar({event}: Props) {
                   </Label>
                 )} */}
             
-                <Item.Image size="tiny" src={attendee.photoURL || '/images/user.png'} />
+                <Item.Image size="tiny" src={attendee.photoURL || '/user.png'} />
                   <Item.Content verticalAlign="middle">
                     <Item.Header as={Link} to={`/user-profile/${attendee.id}`}>
                      <span>{attendee.name}</span>

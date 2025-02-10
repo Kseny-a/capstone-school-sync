@@ -120,12 +120,12 @@ function EventForm({ setShowForm}: Props) {
       const newEventRef = await addDoc(collection(db, 'events'), {
       ...data,
       hostUid: currentUser.uid,
-      hostPhotoUrl: UserProfile?.photoURL || '/images/user.png',
+      hostPhotoUrl: UserProfile?.photoURL || '/user.png',
       hostedBy: UserProfile?.firstName || currentUser.firstName || 'Unknown user',
       attendees: arrayUnion({
         id: currentUser.uid || [],
         name: UserProfile?.firstName || currentUser.firstName,
-        photoUrl: UserProfile?.photoURL || '/images/user.png',
+        photoUrl: UserProfile?.photoURL || '/user.png',
       }),
       attendeesIds: arrayUnion(currentUser.uid),
       date: Timestamp.fromDate(new Date(data.date as string)),
