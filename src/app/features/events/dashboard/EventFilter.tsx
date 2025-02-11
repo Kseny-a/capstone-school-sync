@@ -91,41 +91,41 @@ const EventFilter = ({ setQuery }: Props) => {
   return (
     <>
       <Menu style={{ width: "100%" }} vertical size="large">
-        <Header attached color="teal" content="Filters" icon='filter'/>
+        <Header attached className="event-header" content="Filters" icon='filter'/>
         <Menu.Item 
           content="All events" 
           onClick={() => handleSetFilter("all")} 
           active={filter === 'all'}
+          className="filter-item"
         />
-
         <Menu.Item 
           content="Attending" 
           onClick={() => handleSetFilter("isGoing")} 
           active={filter === 'isGoing'}
+          className="filter-item"
         />
-
         <Menu.Item 
           content="Hosting" 
           onClick={() => handleSetFilter("isHost")} 
           active={filter === 'isHost'}
+          className="filter-item"
         />
-
       </Menu>
       <Menu style={{ width: "100%" }} vertical size="large">
-        <Header icon="filter" attached color="teal" content="Grade" />       
+        <Header attached className="event-header" icon="filter" content="Grade" />       
           <Dropdown
             placeholder="Select Grade"
+            className="filter-item"
             clearable
             fluid
             selection
             options={gradeOptions}
             value={selectedGrade || ""}
             onChange={handleGradeChange} // set filter to grade
+            
           />
-        
         </Menu>
-
-      <Header icon="calendar" attached color="teal" content="Select date" />
+      <Header attached className="event-header" icon="calendar"  content="Select date" />
       <Calendar 
         onChange={date => {
           startDate.current = date as Date

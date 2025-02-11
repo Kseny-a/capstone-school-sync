@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import type { FieldValues } from 'react-hook-form';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../api/config/firebase';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -15,10 +16,13 @@ function LoginForm() {
     mode: 'onTouched',
   });
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  
   async function onSubmit(data: FieldValues) {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password)
-      dispatch(closeModal());}
+      dispatch(closeModal());
+      navigate('/events')}
     catch (error) {
       console.log(error);
     }
@@ -61,6 +65,7 @@ function LoginForm() {
             size='large'
             color='orange'
             content='Login'
+            
     >Submit</Button>
   </Form>
   </ModalCover>

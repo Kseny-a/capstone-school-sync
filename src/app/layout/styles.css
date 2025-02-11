@@ -1,10 +1,10 @@
 @import url('semantic-ui-css/semantic.min.css');
 
 body {
-    background-color: rgb(245, 245, 245);
+    background-color: rgba(245, 245, 240, 1);
 }
 .ui.inverted.top.fixed.menu {
-    background-color: rgba(22, 63, 187, 0.596);
+    background-color: rgba(80, 140, 100, 1);
 }
 .ui.main.container {
     margin-top: 7em;
@@ -13,7 +13,7 @@ body {
 .master {
     display: flex;
     align-items: center;
-    background-color: rgba(22, 63, 187, 0.596) !important; 
+    background-color: rgba(170, 190, 195, 1)!important; 
     height: 100vh;
 }
 
@@ -25,4 +25,40 @@ body {
     width: 100% !important;
     border: none !important;
     box-shadow: 0 ipx 2px 0 rgba(34, 36, 38, .15) !important;
+}
+
+.event-header {
+    color: rgba(40, 40, 40, 1) !important;
+    
+}
+
+.filter-item {
+    color: rgba(40, 40, 40, 1) !important;
+}
+
+.button {
+    background-color: rgba(80, 140, 100, 1) !important;
+    color: white !important;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: rgba(30, 80, 50, 1)!important;
+}
+
+.attendee-list .item a {
+    color: rgba(0, 102, 204, 1);
+}
+
+.attendee-list .item a:hover {
+    color: rgba(0, 82, 165, 1);
+}
+
+.icon {
+    color: rgb(118, 160, 135) ;
 }

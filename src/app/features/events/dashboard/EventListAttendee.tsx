@@ -1,4 +1,4 @@
-import { List, Image, ItemContent, Item } from "semantic-ui-react";
+import { List, Image, Item } from "semantic-ui-react";
 import { Attendee } from "../../../types/event"
 import { Link } from "react-router-dom";
 
@@ -6,7 +6,7 @@ type Props = {
   attendee: Attendee
 }
 
-function EventListAttendee({attendee}: Props) {
+const EventListAttendee = ({attendee}: Props) => {
   return (
     <List.Item>
       <Image size='mini' circular src={'/user.png'}/>

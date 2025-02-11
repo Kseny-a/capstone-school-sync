@@ -2,9 +2,6 @@ import { SegmentGroup, Segment, ItemGroup, Item, ItemContent, ItemHeader, Icon, 
 import EventListAttendee from "./EventListAttendee";
 import { AppEvent } from "../../../types/event" 
 import { Link } from "react-router-dom";
-import { collection, deleteDoc, doc, getDocs, Timestamp } from 'firebase/firestore'
-import { db } from '../../../api/config/firebase'
-
 
 type Props = {
   event: AppEvent
@@ -12,20 +9,7 @@ type Props = {
 
 function EventListItem({ event }: Props) {
   const eventDate = event.date instanceof Date ? event.date.toISOString().split('T')[0]: event.date;
- 
-  // async function deleteEvent(eventId: string) {
-  //   if (!eventId) {
-  //     console.log('Event ID is missing');
-  //     return;
-  //   }
-  //     try {
-  //       await deleteDoc(doc(db, 'events', eventId));
-  //     }
-  //     catch (error) {
-  //       console.error('Error deleting document: ', error);
-  //     }
 
-  // }
   return (
     <>
       <SegmentGroup>
@@ -62,7 +46,7 @@ function EventListItem({ event }: Props) {
           </span>
         </Segment>
         <Segment secondary>
-          <List horizontal>
+          <List className="attendee-list"  horizontal>
             {event.attendees.map((attendee: any) => (
               <EventListAttendee key ={attendee.id} attendee={attendee} />
             ))}
@@ -70,8 +54,7 @@ function EventListItem({ event }: Props) {
         </Segment>
         <Segment clearing>
           <span>{event.description}</span>
-          <Button color='blue' floated='right' content='View Event'as={Link} to={`/events/${event.id}`} />
-          {/* <Button color='orange' floated='right' content='Delete' onClick={() => deleteEvent(event.id)}/> */}
+          <Button className= 'button' floated='right' content='View Event'as={Link} to={`/events/${event.id}`} />
         </Segment>
       </SegmentGroup>
     </>

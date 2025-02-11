@@ -1,21 +1,17 @@
-import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Header, Segment } from 'semantic-ui-react'
 import { useEffect, useState } from 'react'
 import { AppEvent } from '../../../types/event'
 import { addDoc, doc, Timestamp, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore'
 import { db } from '../../../api/config/firebase'
-import { setDoc, collection } from 'firebase/firestore'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/package.json';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../store/store';
-import { setEvents } from '../eventSlice';
-import { getDoc } from 'firebase/firestore'; 
-import { UserProfile } from '../../../types/profile'
-import { getUserProfile } from '../../../utilities/firebaseUtil';
-import { add } from 'date-fns';
-import { toast } from 'react-toastify';
-
+import { collection } from 'firebase/firestore'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/package.json'
+import 'react-datepicker/dist/react-datepicker.css'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
+import { setEvents } from '../eventSlice'
+import { getUserProfile } from '../../../utilities/firebaseUtil'
+import { toast } from 'react-toastify'
 
 
 const gradeOptions = [
@@ -27,11 +23,7 @@ const gradeOptions = [
   { key: '5', text: '5th grade', value: '5th' },
 ];
 
-type Props = {
-  setShowForm: (value: boolean) => void;
-};
-
-function EventForm({ setShowForm}: Props) {
+const EventForm = () => {
 
   let { id } = useParams<{ id: string }>();
   const event = useAppSelector(state => state.events.events.find(e => e.id === id))
@@ -100,15 +92,6 @@ function EventForm({ setShowForm}: Props) {
     })
   }
 
-  // async function createTheEvent(data: AppEvent) {
-  //   const newEventRef = doc(collection(db, 'events'));
-  //   await addDoc(newEventRef, {
-  //     ...data,
-  //     date: Timestamp.fromDate(new Date(data.date as string)),
-  //   });
-  //   return newEventRef;
-  // }
-
   // Creating Event and adding Host and Attendees
   async function createTheEvent(data: AppEvent) {
     if (!currentUser) {
@@ -130,13 +113,9 @@ function EventForm({ setShowForm}: Props) {
       attendeesIds: arrayUnion(currentUser.uid),
       date: Timestamp.fromDate(new Date(data.date as string)),
     });
-     
     await updateDoc(newEventRef, {
       id: newEventRef.id,
     });
-    // await setDoc(newEventRef, newEventData)
-    // dispatch(setEvents(newEventData))
-    // return newEventId;
     return newEventRef;
   } catch (error){
     console.log('Error creating the event:', error);
@@ -156,21 +135,13 @@ function EventForm({ setShowForm}: Props) {
         newEventRef = await createTheEvent(eventForm);
         if (newEventRef?.id) {
           const newEvent = { ...eventForm, id: newEventRef.id };
-
           dispatch(setEvents(newEvent));
           navigate(`/events/${newEventRef.id}`);
           toast.success('event created successfully');
         }
-        // setEventForm(prev => ({...prev, id: newEventId}))
-  
       }
-      if (newEventRef || eventForm.id) {
-        setShowForm(false);
-      }
-    
     } catch (error) {
       console.log('Error submitting the form', error)
-      // toast.error('error submitting the form, please try again');
     }
   }
 
@@ -267,14 +238,12 @@ catch (error){
           <Button
           type='button'
           floated='left'
-          color={eventForm.isCancelled ? 'green': 'orange'}
           onClick = {() => handleCancelEvent(eventForm)}
           content={eventForm.isCancelled ? 'Reactivate Event': 'Cancel Event'}
-          // as={Link} to={`/events/${eventForm.id}`}
-           />
+          />
         )}
-        <Button type='submit' floated='right' inverted color='blue' content='Submit'></Button>
-        <Button as={Link} to='/events' type='button' floated='right' inverted color='blue' content='Back'></Button>
+        <Button type='submit' floated='right' content='Submit'></Button>
+        <Button as={Link} to='/events' type='button' floated='right' content='Back'></Button>
       </Form>
     </Segment>
   );

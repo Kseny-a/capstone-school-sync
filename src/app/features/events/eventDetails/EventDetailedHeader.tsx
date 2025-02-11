@@ -83,7 +83,6 @@ if (event.isGoing) {
                 <Header
                   size="huge"
                   content={event.title}
-                  style={{ color: 'teal' }}
                 />
                 <p>Hosted by {event.hostedBy}</p>
               </Item.Content>
@@ -108,7 +107,7 @@ if (event.isGoing) {
       <Segment attached>
         <Grid>
           <Grid.Column width={15}>
-            <Icon color="teal" name="info" />
+            <Icon name="info" />
             <span>Event Details</span>
           </Grid.Column>
             <span>{event.description}</span>
@@ -119,7 +118,7 @@ if (event.isGoing) {
       <Segment attached>
         <Grid verticalAlign="middle">
           <Grid.Column width={1}>
-            <Icon name="calendar" color="teal" />
+            <Icon  name="calendar" />
           </Grid.Column>
           <Grid.Column width={11}>
             <span>{event.date.toString()} {event.time}</span>
@@ -129,7 +128,7 @@ if (event.isGoing) {
       <Segment attached>
         <Grid verticalAlign="middle">
           <Grid.Column width={1}>
-            <Icon name="marker" color="teal" />
+            <Icon name="marker"/>
           </Grid.Column>
           <Grid.Column width={11}>
             <span>{event.venue}</span>
