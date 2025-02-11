@@ -66,44 +66,6 @@ const gradeOptions = [
       }
     }
 
-// function RegisterForm({ setAuth }: Props) {
-//     const [userForm, setUserForm] = useState<AppUser>({
-//         id: '',
-//         firstName: '',
-//         lastName: '',
-//         email: '',
-//         password: '',
-//         childName: '',
-//         grade: '',
-//     })
-//     const [selectedGrade, setSelectedGrade] = useState('');
-//     const navigate = useNavigate();
-
-  
-    // const handleGradeChange = (e: React.SyntheticEvent<HTMLElement>, { value }: any) => {
-    //     setSelectedGrade(value);
-    //     setUserForm({ ...userForm, grade: value });
-    // };
-
-//     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         const { name, value } = e.target;
-//         setUserForm({ ...userForm, [name]: value });
-//     };
-
-//     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//         e.preventDefault();
-//         try {
-//             const userRef = doc(collection(db, 'users'));
-//             await setDoc(userRef, { ...userForm, id: userRef.id });
-//             console.log('User registered successfully');
-//             setAuth(true);
-//             navigate("/user-profile");
-
-//         } catch (error) {
-//             console.log('Error registering user:', error);
-//         }
-//     };
-
   return (
     <ModalCover header='Register to SchoolSync' size='small'>
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -112,11 +74,6 @@ const gradeOptions = [
       <input placeholder='Parent first name'
             {...register('firstName', {required: 'First name is required'})}
             defaultValue=''
-            // error={errors.firstName && 'First name is required'}
-            // type='text' 
-            // value={userForm.firstName}
-            // name='firstName'
-            // onChange={handleInputChange}/>
             />
             {errors.firstName && <Message error content={errors.firstName.message} />}
     </Form.Field>
@@ -125,11 +82,6 @@ const gradeOptions = [
       <input placeholder='Parent last name'
              {...register('lastName', {required: 'Last name is required'})}
               defaultValue=''
-              // error={errors.lastName && 'Last name is required'}
-            /* // type='text' 
-            // value={userForm.lastName}
-            // name='lastName'
-            // onChange={handleInputChange}  */
             />
      {errors.lastName && <Message error content={errors.lastName.message} />}       
         
@@ -140,8 +92,7 @@ const gradeOptions = [
             placeholder='Email'
             {...register('email', { required: 'Email is required' })}
             type='email'
-            // defaultValue=''
-            // error={errors.email && 'Email is required'}
+      
             />
             {errors.email && <Message error content={errors.email.message}/>}
       
@@ -194,7 +145,6 @@ const gradeOptions = [
             fluid
             size='large'
             color='orange'
-            // content='Register'
             >
       Submit</Button>
       {/* Object.keys(errors).length > 0 */}

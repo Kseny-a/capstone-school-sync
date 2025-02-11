@@ -90,6 +90,12 @@ const EventFilter = ({ setQuery }: Props) => {
 
   return (
     <>
+    {!currentUser ? ( 
+      <Header as="h2"color="blue" textAlign="left">
+      Please log in to view events. 
+      </Header>
+    ) : ( 
+    <>
       <Menu style={{ width: "100%" }} vertical size="large">
         <Header attached className="event-header" content="Filters" icon='filter'/>
         <Menu.Item 
@@ -134,7 +140,8 @@ const EventFilter = ({ setQuery }: Props) => {
         value={startDate.current}
       />
     </>
-  );
+  )}
+  </>
+);
 }
-
 export default EventFilter
