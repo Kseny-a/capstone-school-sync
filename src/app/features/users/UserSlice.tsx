@@ -28,6 +28,26 @@ const userSlice = createSlice({
             // return { payload: Array.isArray(profiles) ? profiles : [profiles] };
             },
         },
+        updateProfile: {
+            // reducer: (state, action: PayloadAction<Profile>) => {
+            //     const index = state.data.findIndex(profile => profile.uid === action.payload.uid);
+            //     if (index !== -1) {
+            //         state.data[index] = action.payload;
+            //     } else {
+            //         console.error('Profile not found in state:', action.payload.uid);
+            //     }
+            // },
+            reducer: (state, action: PayloadAction<Profile>) => {
+                state.data = state.data.map(profile => 
+                    profile.uid === action.payload.uid ? { ...profile, ...action.payload } : profile
+                );
+            },
+
+            prepare: (profile: Profile) => {
+                return { payload: profile };
+            }
+        },
+
         setLoading: (state) => {
             state.status = 'loading';
         }, 
@@ -37,5 +57,5 @@ const userSlice = createSlice({
         }, 
        });
 
-       export const { success, setLoading, setError } = userSlice.actions;
+       export const { success, setLoading, setError, updateProfile } = userSlice.actions;
        export default userSlice.reducer;

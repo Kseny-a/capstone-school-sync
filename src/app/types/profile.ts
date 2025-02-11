@@ -1,5 +1,5 @@
 export type Profile = {
-    id: string,
+    uid: string,
     photoUrl: string | null,
     firstName:string,
     lastName: string,

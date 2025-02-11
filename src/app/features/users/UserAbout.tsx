@@ -3,6 +3,7 @@ import { Button, Grid, Header, Tab, TabPane } from 'semantic-ui-react';
 import { useState } from 'react';
 import { Profile } from '../../types/profile';
 import UserForm from './UserForm';
+import { useAppSelector } from '../../store/store';
 
 type Props = {
     profile: Profile,
@@ -10,16 +11,21 @@ type Props = {
 
 export default function UserAbout({profile}: Props) {
     const [editMode, setEditMode] = useState(false);
+    const currentUser = useAppSelector(state => state.auth.currentUser);
+    const loggedInUserId = currentUser?.uid;
+    
   return (
     <TabPane>
         <Grid>
             <Grid.Column width={16}>
                 <Header floated='left' icon='user' content={`About ${profile.firstName}`} style={{ marginBottom: 30 }}/>
-                <Button
+               { loggedInUserId === profile.uid && (
+               <Button
                 floated='right'
                 basic
                 content={editMode ? 'Cancel': 'Edit profile'} 
                 onClick={()=> setEditMode(!editMode)}/>
+            )}
 
             </Grid.Column>
             <Grid.Column width={16}>
@@ -36,8 +42,6 @@ export default function UserAbout({profile}: Props) {
             </Grid.Column>
         </Grid>
     </TabPane>
-
-
 
 
   )

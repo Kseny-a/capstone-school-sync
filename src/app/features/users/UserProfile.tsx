@@ -14,8 +14,10 @@ import { Profile } from '../../types/profile';
 function UserProfile() {
   const { uid } = useParams<{ uid: string }>();
   const dispatch = useAppDispatch();
-  const { status, data } = useAppSelector(state => state.profiles);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  // const { status, data } = useAppSelector(state => state.profiles);
+  // const [profile, setProfile] = useState<Profile | null>(null);
+  const profile = useAppSelector(state => state.profiles.data.find(p => p.uid === uid));
+  const status = useAppSelector(state => state.profiles.status);
 
 
   useEffect(() => {
@@ -23,22 +25,9 @@ function UserProfile() {
       if (!uid) return;
       console.log('loading profile:', uid);
         dispatch(setLoading());
-      if (status === 'loading') return (<p> Loading profile details...</p>);
+      // if (status === 'loading') return (<p> Loading profile details...</p>);
         try {
-    //     const foundProfile = data.find((u) => u.uid === uid )
-    //     if (foundProfile) {
-    //       console.log('Profile found:', foundProfile);
-    //        setProfile(foundProfile);
-    //       }
-    //   }
-    // }, [data, uid]);
 
-    // useEffect(() => {
-    //   async function loadProfile() {
-    //     if (!uid) return;
-    //     console.log('Loading profile:', uid);
-    //      dispatch(setLoading());
-    //     try {
         const docRef = doc(db, 'users', uid);
         const docSnap = await getDoc(docRef);
 
@@ -46,11 +35,11 @@ function UserProfile() {
           // setProfile(docSnap.data() as Profile);
           const profileData = docSnap.data() as Profile;
           console.log('Document data:', profileData);
-          setProfile(profileData);
           dispatch(success([profileData]));
+          // setProfile(profileData);
         } else {
           console.log('No such document');
-          setProfile(null);
+          // setProfile(null);
           dispatch(setError());
         }
       } catch (error) {
@@ -66,8 +55,8 @@ function UserProfile() {
 
   console.log('Profile:', profile);
   console.log('Status:', status);
-  console.log('Data:', data);
-    
+ 
+  if (status === 'loading') return (<p> Loading profile details...</p>);  
   if (!profile) {
   
       return (<h2>Profile is loading ...</h2>);

@@ -3,6 +3,9 @@ import { Profile } from "../../types/profile";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../../api/config/firebase";
 import { Button, FormField, Form, TextArea } from "semantic-ui-react";
+import { useAppDispatch } from "../../store/store";
+import { updateProfile } from "./UserSlice";
+import { useEffect } from "react";
 
 type Props = {
     profile: Profile;
@@ -14,12 +17,13 @@ type FormValues = {
 
 
 function UserForm({profile, setEditMode}: Props) {
-    const {register, handleSubmit, formState: {errors, isSubmitting, isDirty, isValid} }  = useForm({
+    const {register, handleSubmit, reset, formState: {errors, isSubmitting, isDirty, isValid} }  = useForm<FormValues>({
         mode: 'onTouched',
-        defaultValues: {
-            description: profile.description,
-        }
-})
+        defaultValues: {description: profile.description }
+});
+
+
+const dispatch = useAppDispatch();
       
      const onSubmit: SubmitHandler<FormValues> = async (data) => {
        if (!profile.uid) {
@@ -30,11 +34,16 @@ function UserForm({profile, setEditMode}: Props) {
         await updateDoc(doc(db, 'users', profile.uid),{
             description: data.description
         }); 
+        dispatch(updateProfile({...profile, description: data.description}));
         setEditMode(false);
     } catch (error) {
         console.log('Error updating user profile:', error);
     }
 };
+
+useEffect(()=> {
+    reset( { description: profile.description});
+}, [profile.description, reset]);
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -42,11 +51,12 @@ function UserForm({profile, setEditMode}: Props) {
                 <TextArea 
             placeholder='More information about me'
             {...register('description')}/>
+            {errors.description && <p>{errors.description.message}</p>}
             </FormField>
             
             <Button
              type='submit'
-            //  disabled={isSubmitting || !isValid || isDirty}
+            // disabled={isSubmitting || !isValid || isDirty}
              floated='right'
             size='large'
             positive
