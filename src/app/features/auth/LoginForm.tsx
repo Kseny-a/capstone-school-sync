@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import type { FieldValues } from 'react-hook-form';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../api/config/firebase';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -15,24 +16,17 @@ function LoginForm() {
     mode: 'onTouched',
   });
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  
   async function onSubmit(data: FieldValues) {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password)
-      dispatch(closeModal());}
+      dispatch(closeModal());
+      navigate('/events')}
     catch (error) {
       console.log(error);
     }
   }
-  // function onSubmit(data: FieldValues) {
-  //   dispatch(logIn(data));
-  //   dispatch(closeModal());
-  // }
-  
- 
-  // const result = await signInWithEmailAndPassword(auth, data.email, data.password)
-  // console.log(result);
-  //   dispatch(logIn(result.user));
-  //   dispatch(closeModal());
 
   return (
     <ModalCover header='Sign-in to SchoolSync' size='mini'>
@@ -61,6 +55,7 @@ function LoginForm() {
             size='large'
             color='orange'
             content='Login'
+            
     >Submit</Button>
   </Form>
   </ModalCover>
