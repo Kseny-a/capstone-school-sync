@@ -2,14 +2,9 @@ import { Menu, Image, Dropdown, DropdownMenu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-// import { logOut } from '../features/auth/authSlice';
 import { signOut } from 'firebase/auth';
 import { auth } from '../api/config/firebase';
 
-
-// type Props = {
-//     setAuth: (value: boolean) => void;
-//   }
 
 function SignedIn() {
   const {currentUser} = useAppSelector(state => state.auth)

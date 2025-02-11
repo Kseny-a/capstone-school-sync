@@ -54,7 +54,7 @@ function EventListItem({ event }: Props) {
         </Segment>
         <Segment clearing>
           <span>{event.description}</span>
-          <Button className= 'button' floated='right' content='View Event'as={Link} to={`/events/${event.id}`} />
+          <Button className='button' floated='right' content='View Event' as={Link} to={`/events/${event.id}`} />
         </Segment>
       </SegmentGroup>
     </>

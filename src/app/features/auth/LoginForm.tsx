@@ -27,16 +27,6 @@ function LoginForm() {
       console.log(error);
     }
   }
-  // function onSubmit(data: FieldValues) {
-  //   dispatch(logIn(data));
-  //   dispatch(closeModal());
-  // }
-  
- 
-  // const result = await signInWithEmailAndPassword(auth, data.email, data.password)
-  // console.log(result);
-  //   dispatch(logIn(result.user));
-  //   dispatch(closeModal());
 
   return (
     <ModalCover header='Sign-in to SchoolSync' size='mini'>
