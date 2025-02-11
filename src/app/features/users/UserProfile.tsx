@@ -23,7 +23,7 @@ function UserProfile() {
       if (!uid) return;
       console.log('loading profile:', uid);
         dispatch(setLoading());
-      if (status === 'loading') return <Loader content='Loading profile...'/>;
+      if (status === 'loading') return (<p> Loading profile details...</p>);
         try {
     //     const foundProfile = data.find((u) => u.uid === uid )
     //     if (foundProfile) {
@@ -70,7 +70,7 @@ function UserProfile() {
     
   if (!profile) {
   
-      return (<h2>Profile not found</h2>);
+      return (<h2>Profile is loading ...</h2>);
   }
 
 

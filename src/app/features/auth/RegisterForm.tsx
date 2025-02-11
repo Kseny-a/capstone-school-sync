@@ -38,7 +38,7 @@ const gradeOptions = [
     const handleGradeChange = (e: React.SyntheticEvent<HTMLElement>, { value }: any) => {
       setValue('grade', value, { shouldValidate: true });
     };
-    const grade = watch('garde')
+    const grade = watch('grade')
 
     async function onSubmit(data: FieldValues) {
       try {
@@ -112,39 +112,45 @@ const gradeOptions = [
       <input placeholder='Parent first name'
             {...register('firstName', {required: 'First name is required'})}
             defaultValue=''
-            error={errors.firstName && 'First name is required'}
+            // error={errors.firstName && 'First name is required'}
             // type='text' 
             // value={userForm.firstName}
             // name='firstName'
             // onChange={handleInputChange}/>
             />
+            {errors.firstName && <Message error content={errors.firstName.message} />}
     </Form.Field>
     <Form.Field>
       <label>Parent last name</label>
       <input placeholder='Parent last name'
              {...register('lastName', {required: 'Last name is required'})}
               defaultValue=''
-              error={errors.lastName && 'Last name is required'}
+              // error={errors.lastName && 'Last name is required'}
             /* // type='text' 
             // value={userForm.lastName}
             // name='lastName'
             // onChange={handleInputChange}  */
             />
+     {errors.lastName && <Message error content={errors.lastName.message} />}       
         
     </Form.Field>
     <Form.Field>
       <label>Email</label>
       <input
             placeholder='Email'
-            {...register('email', {required: true})}
+            {...register('email', { required: 'Email is required' })}
             type='email'
-            defaultValue=''
-            error={errors.email && 'Email is required'} />
+            // defaultValue=''
+            // error={errors.email && 'Email is required'}
+            />
+            {errors.email && <Message error content={errors.email.message}/>}
+      
       </Form.Field>
     <Form.Field>
       <label>Password</label>
       <input 
-            placeholder='Password'
+            placeholder='Password must be at least 6 characters'
+            type='password'
             {...register('password', { 
               required: 'Password is required', 
               minLength: { value: 6, message: 'Password must be at least 6 characters long' }
@@ -156,9 +162,11 @@ const gradeOptions = [
       <label>Child's name</label>
       <input placeholder="Child's name"
             type='text' 
-            {...register('childName', {required: true})}
+            {...register('childName', {required: "Child's name is required"})}
             defaultValue=''
-            error={errors.childName && "Child's name is required"} />
+            error={errors.childName && "Child's name is required"}
+             />
+              {errors.childName && <Message error content={errors.childName.message} />}
     </Form.Field>
     <Form.Field>
       <label>Child's grade</label>
@@ -180,13 +188,16 @@ const gradeOptions = [
           content={errors.serverError.message}
         />)}
 
-    <Button type='submit'
-            disabled={!isValid || isSubmitting || !isDirty || Object.keys(errors).length > 0 }
+    <Button 
+            type='submit'
+            disabled={!isValid || isSubmitting || !isDirty }
             fluid
             size='large'
             color='orange'
-            content='Register'>
+            // content='Register'
+            >
       Submit</Button>
+      {/* Object.keys(errors).length > 0 */}
   </Form>
   </ModalCover>
   

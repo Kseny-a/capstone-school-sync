@@ -23,7 +23,13 @@ export default function EventDetailedSideBar({event}: Props) {
         <Item.Group relaxed divided>
           {event.attendees?.map(attendee => (
               <Item style={{ position: 'relative' }} key={attendee.id}>
-                <Item.Image size="tiny" src={attendee.photoURL || '/images/user.png'} />
+                {/* {event.hostUid === attendee.id && (
+                  <Label  style={{postition:'absolute'}} color='olive' ribbon='right'>
+                    Host
+                  </Label>
+                )} */}
+            
+                <Item.Image size="tiny" src={attendee.photoURL || '/user.png'} />
                   <Item.Content verticalAlign="middle">
                     <Item.Header as={Link} to={`/user-profile/${attendee.id}`}>
                     <span>{attendee.name}</span>

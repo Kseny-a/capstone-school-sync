@@ -75,7 +75,7 @@ if (event.isGoing) {
 }
   return (
     <Segment.Group>
-      <Segment basic attached="top" style={{ padding: '0' }}>
+      <Segment attached="top" style={{ padding: '0' }}>
         <Segment basic>
           <Item.Group>
             <Item>
